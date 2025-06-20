@@ -43,7 +43,7 @@ export const updateWishList = async ( product: IProduct, isAdd: boolean, current
 
     try {
         // @ts-ignore
-        const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-wishlist`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-wishlist`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export const updateCart = async ( cartItem: ICartItem, isAdd: boolean, sameItem:
 
     try {
         // @ts-ignore
-        const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-cart`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-cart`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
