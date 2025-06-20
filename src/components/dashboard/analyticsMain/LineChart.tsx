@@ -1,13 +1,13 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+// import { TrendingUp } from "lucide-react"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "../../ui/card.tsx"
@@ -17,7 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../../ui/chart.tsx"
-import { DatePickerWithRange } from "../couponMain/DatePicker.tsx"
+import { DatePicker } from "../couponMain/DatePicker.tsx"
 const chartData = [
   { month: "January", visits: 186 },
   { month: "February", visits: 305 },
@@ -45,7 +45,7 @@ export function Component() {
     <Card>
       <CardHeader>
         <CardTitle>Line Chart</CardTitle>
-        <CardDescription><DatePickerWithRange className="w" /></CardDescription>
+        <CardDescription><DatePicker className="" field={""} /></CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer className="h-[200px] w-full" config={chartConfig}>

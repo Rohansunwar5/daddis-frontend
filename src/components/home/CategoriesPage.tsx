@@ -13,11 +13,12 @@ import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
 
 const ProductCard = ({ product, currentCart, dispatch, userData, currentWishList } : { product: IProduct, currentCart: ICartItem[], dispatch: Dispatch<UnknownAction>, userData: ICustomer, currentWishList: IProduct[] }) => {
     
-    const [ isWishListAddedButtonLoading, setIsWishListAddedButtonLoading ] = useState<boolean>(false);
+    // const [ isWishListAddedButtonLoading, setIsWishListAddedButtonLoading ] = useState<boolean>(false);
     const [ isCartAddedButtonLoading, setIsCartAddedButtonLoading ] = useState<boolean>(false);
     const [ isInWishList, setIsInWishList ] = useState<boolean>(currentWishList?.filter((Item: IProduct) => Item?._id == product?._id).length == 0 ? false : true);
     const [ isInCart, setIsInCart ] = useState<boolean>(currentCart?.filter((Item: ICartItem) => Item?.product?._id == product?._id).length == 0 ? false : true);
-    
+
+    console.log(setIsInWishList);
 
     return (
         <div className="max-w-[250px] w-full col-span-1 justify-self-center relative rounded-lg shadow-xl">
