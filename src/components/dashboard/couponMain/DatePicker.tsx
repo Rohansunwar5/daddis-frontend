@@ -10,7 +10,8 @@ import { Calendar } from "../../ui/calendar"
 
 
 export const DatePicker = ({ field, className, defaultValue } : { field : any, className: string, defaultValue?: Date }) => {
-  const [ date, setDate ] = React.useState<Date>(defaultValue);
+  const currentDate = new Date;
+  const [ date, setDate ] = React.useState<Date>(defaultValue ? defaultValue : currentDate);
   const [ isPopoverOpen, setPopoverOpen ] = React.useState(false);
 
   return (

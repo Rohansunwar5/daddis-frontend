@@ -1,5 +1,7 @@
-import { ChevronLeft, LucideHeart, LucideImageOff, ReceiptIndianRupeeIcon, ShoppingCart, Trash2 } from "lucide-react";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { ChevronLeft, LucideHeart, LucideImageOff, 
+    // ReceiptIndianRupeeIcon,
+     ShoppingCart, Trash2 } from "lucide-react";
+// import { Swiper, SwiperSlide } from 'swiper/react';
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { toast } from "sonner";
@@ -12,8 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../ui/skeleton";
 import 'swiper/css';
-import { Card } from "../ui/card";
-import { CardContent } from "@mui/material";
+// import { Card } from "../ui/card";
+// import { CardContent } from "@mui/material";
 
 export const ProductPage = () => {
 
@@ -75,7 +77,7 @@ export const ProductPage = () => {
         if (!api) {
         return
         }
-    
+        
         setCount(api.scrollSnapList().length)
         setCurrent(api.selectedScrollSnap() + 1)
     
@@ -83,6 +85,8 @@ export const ProductPage = () => {
         setCurrent(api.selectedScrollSnap() + 1)
         })
     }, [api])
+
+    console.log(count);
 
     return (
         <div className="flex flex-col min-h-[calc(100vh-56px)] sm:flex-row w-full mt-14 sm:p-10">

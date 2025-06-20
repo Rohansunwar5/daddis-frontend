@@ -453,7 +453,10 @@ export const HomePageHeroCarousel = ({ bannerHeros } : { bannerHeros: Array<ISam
         {bannerHeros.map((banner, index) => {
             return (
                 <>
-                  <img src={banner.imageUrl.url} ref={(el) => (itemRefs.current[index] = el)} className={cn(`hero-section-animation-elements sm:h-[90%] sm:-right-[25%] -right-[40%] -rotate-90 scale-[0.4] sm:w-[auto] w-[70%] z-[50] absolute object-contain`)} />
+                  <img src={banner.imageUrl.url} ref={(el) => {
+                      // @ts-ignore
+                      return (itemRefs.current[index] = el)
+                    }} className={cn(`hero-section-animation-elements sm:h-[90%] sm:-right-[25%] -right-[40%] -rotate-90 scale-[0.4] sm:w-[auto] w-[70%] z-[50] absolute object-contain`)} />
                 </>
             );
           })}

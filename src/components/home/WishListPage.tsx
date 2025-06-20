@@ -6,8 +6,10 @@ import { cn } from "../../lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { ICartItem, ICustomer, IProduct } from "../../utils/constants";
 import { toast } from "sonner";
-import { ToastFaliure, ToastSuccess } from "../dashboard/productMain/AllProductsTable";
-import { setCustomerData } from "../../redux/slices/websiteSlice";
+import { 
+    // ToastFaliure,
+     ToastSuccess } from "../dashboard/productMain/AllProductsTable";
+// import { setCustomerData } from "../../redux/slices/websiteSlice";
 import { updateCart, updateWishList } from "../../utils/utility-functions";
 import { Dispatch } from "@reduxjs/toolkit";
 
@@ -133,7 +135,8 @@ const WishListCard = ({ userData, product, wishList, setWishListData, cart } : {
     const dispatch = useDispatch();
     const [ isXLoading, setIsXLoading ] = useState(false);
     const [ isPresentInCart, setIsPresentInCart ] =  useState<boolean>(cart.filter((cartItem: ICartItem) => cartItem?.product?._id == product?._id)[0] ? true : false);
-
+    console.log(setWishListData);
+    
     return (
         <div className="w-[100px] sm:w-[250px] bg-slate-200 relative rounded-lg">
             <img src={product?.imageUrl[0]?.url} alt="" className="sm:w-[250px] object-cover rounded-t-md w-[100px] h-[100px] sm:h-[250px]" />

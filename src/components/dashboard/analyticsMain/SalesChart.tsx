@@ -1,13 +1,15 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
+// import { TrendingUp } from "lucide-react"
+import { Bar, BarChart, CartesianGrid, 
+  // LabelList, 
+  XAxis, YAxis } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "../../ui/card"
@@ -19,7 +21,7 @@ import {
 } from "../../ui/chart"
 import { Label } from "../../ui/label"
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group"
-import { Button } from "../../ui/button"
+// import { Button } from "../../ui/button"
 import { useState } from "react"
 const chartData = [
   { month: "January 2023", desktop: 18600 },

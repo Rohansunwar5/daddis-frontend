@@ -5,7 +5,7 @@ import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  Updater,
+  // Updater,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -14,20 +14,22 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown
+  // , ChevronDown
+  , MoreHorizontal } from "lucide-react"
 
 import { Button } from "../../ui/button"
 import { Checkbox } from "../../ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
+  // DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu"
-import { Input } from "../../ui/input"
+// import { Input } from "../../ui/input"
 import {
   Table,
   TableBody,

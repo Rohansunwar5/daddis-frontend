@@ -34,7 +34,7 @@ const getEmails = async () => {
       }
 };
 
-const updateEmail = async (id: string , emailData: IEmail) => {
+export const updateEmail = async (id: string , emailData: IEmail) => {
     try {
         // @ts-ignore
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}emails/update-email/${id}`, {
@@ -72,7 +72,7 @@ export const EmailPage = () => {
     
         unlayer?.exportHtml((data) => {
           const { design, html } = data;
-          console.log('exportHtml', html);
+          console.log('exportHtml', html, design);
         });
     };
 
@@ -81,7 +81,7 @@ export const EmailPage = () => {
     // you can load your template here;
     // the design json can be obtained by calling
     // unlayer.loadDesign(callback) or unlayer.exportHtml(callback)
-
+        console.log(unlayer, currentEmail);
     // const templateJson = { DESIGN JSON GOES HERE };
     // unlayer.loadDesign(templateJson);
     };
