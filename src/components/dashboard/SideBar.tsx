@@ -35,7 +35,7 @@ export const SideBar = () => {
         setIsLogoutButtonLoading(true);
         try {
             // @ts-ignore
-            const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/logout`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/logout`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const SideBar = () => {
                         </span>
                     </button>
                 </Link>
-                <Link to={"products"}>
+                <Link to={"category/all"}>
                     <button onClick={() => setDashboardOption(DashboardOptions.Products)} className={cn("hover:bg-gray-200 pl-4 transition-colors duration-150 items-center h-14 flex w-full rounded-xl", dashboardOption == DashboardOptions.Products && "bg-yellow-300 hover:bg-yellow-300 text-white")}>
                         <Package2 />
                         {/* {dashboardOption === DashboardOptions.Dashboard ? <RiDashboard3Fill className="text-2xl" /> : <RiDashboard3Line className="text-2xl" />} */}

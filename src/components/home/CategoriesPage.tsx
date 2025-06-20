@@ -56,7 +56,7 @@ export const CategoriesPage = () => {
     const categories: ICategory[] = useSelector((state: any) => state?.website?.categories);
     const categoryBanner: ICategory[] = categories?.filter((category: ICategory) => {
         return category?._id === name
-    });
+    }) || categories[0];
     const userData: ICustomer = useSelector((state: any) => state.website.customerData);
     const currentWishlist = userData?._id ? userData?.wishList : JSON.parse(localStorage.getItem("wishList")!) ;
     const currentCart: ICartItem[] = userData?._id ? userData?.cart : JSON.parse(localStorage.getItem("cart")!);
@@ -73,7 +73,8 @@ export const CategoriesPage = () => {
     useEffect(() => {
         // console.log("categoryBanners : ");
         // console.log(categoryBanner[0]?.banners[0]?.imageUrl?.url);
-        setProducts(productDataFromStore?.filter((product: IProduct) => product?.productCategory?._id === name));
+        if ( name == "all") setProducts(productDataFromStore);
+        else setProducts(productDataFromStore?.filter((product: IProduct) => product?.productCategory?._id === name));
         console.log(products, productDataFromStore, categories, categoryBanner);
     }, [ productDataFromStore, currentCategory ]);
     
@@ -125,7 +126,7 @@ export const CategoriesPage = () => {
                 <Link className="sm:hidden bg-blue-600" to={"/"}>
                     <ChevronLeft className="hover:scale-125 transition-all duration-300  mb-4 top-4 left-4" />
                 </Link>
-                {categoryBanner[0]?.banners[0]?.imageUrl?.url ? <img src={categoryBanner[0]?.banners[0]?.imageUrl.url} className="w-full sm:h-[350px] lg:h-[350px] relative md:h-[200px] h-[100px] object-top rounded-lg bg-gray-300 object-cover" alt="" /> : <div className="w-full h-[300px] rounded-lg bg-gray-300 object-cover flex justify-center items-center"><ImageOff /></div> }
+                {categoryBanner[0]?.banners[0]?.imageUrl?.url || categories[0]?.banners[0]?.imageUrl?.url ? <img src={categoryBanner[0]?.banners[0]?.imageUrl.url || categories[0]?.banners[0]?.imageUrl?.url } className="w-full sm:h-[350px] lg:h-[350px] relative md:h-[200px] h-[100px] object-top rounded-lg bg-gray-300 object-cover" alt="" /> : <div className="w-full h-[300px] rounded-lg bg-gray-300 object-cover flex justify-center items-center"><ImageOff /></div> }
                 <div className="py-4 grid sm:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 items-center gap-4 justify-center" id="product-list">
                     {!products && <Loader2 className="w-4 h-4 animate-spin" />}
                     {products?.length == 0 && <p className="col-span-full text-center font-[quicksand] text-yellow-600 w-full h-full">No products under this category!</p>}

@@ -13,7 +13,7 @@ export const Expandedblog = () => {
     const getBlog = async () => {
         try {
             // @ts-ignore
-            const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/get-a-blog/${blogId}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/get-a-blog/${blogId}`, {
                 method: "GET",
                 headers: {
                     "contentType": "application/json",

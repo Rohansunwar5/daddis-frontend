@@ -5,8 +5,19 @@ import { useDispatch } from "react-redux";
 import { setPartnerBanners, setCategories, setProductData, setTopProducts, setCustomerData, setHeroBanners } from "./redux/slices/websiteSlice";
 import { toast } from "sonner";
 import { ToastWarning } from "./components/dashboard/productMain/AllProductsTable";
+import { useLocation } from "react-router-dom";
 
 export const App = () => {
+  
+  function ScrollToTop() {
+    const location = useLocation();
+  
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [location.pathname]); // Scroll to top on pathname change
+  
+    return null; // This component doesn't render anything visually
+  }
 
     const dispatch = useDispatch();
 
@@ -14,7 +25,7 @@ export const App = () => {
         (async function verify() {
           try {
               // @ts-ignore
-              const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/current-user`, {
+              const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/current-user`, {
                   method: "GET",
                   headers: {
                       "Content-Type": "application/json",
@@ -47,7 +58,7 @@ export const App = () => {
         (async function() {
             try {
                 // @ts-ignore
-                const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/get-all-products`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/get-all-products`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -69,7 +80,7 @@ export const App = () => {
         (async function () {
             try {
                 // @ts-ignore
-                const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/get-all-categories`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/get-all-categories`);
             
                 const data = await response.json();
             
@@ -89,7 +100,7 @@ export const App = () => {
         (async function () {
             try {
                 // @ts-ignore
-                const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/get-all-banners-from-a-type/partner-banner`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/get-all-banners-from-a-type/partner-banner`);
             
                 const data = await response.json();
             
@@ -107,7 +118,7 @@ export const App = () => {
         (async function () {
             try {
                 // @ts-ignore
-                const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/get-all-banners-from-a-type/hero-section-banner`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/get-all-banners-from-a-type/hero-section-banner`);
             
                 const data = await response.json();
             
@@ -156,6 +167,9 @@ export const App = () => {
     }, []);
 
     return (
-        <MainLayout />
+        <>
+          <ScrollToTop />
+          <MainLayout />
+        </>
     );
 };

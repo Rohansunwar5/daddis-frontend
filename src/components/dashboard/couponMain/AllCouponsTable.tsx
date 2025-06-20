@@ -52,7 +52,7 @@ import { ToastFaliure, ToastSuccess } from "../productMain/AllProductsTable.tsx"
 const getCouponData = async () => {
   try {
     // @ts-ignore
-    const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/get-all-coupons`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/get-all-coupons`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -306,7 +306,7 @@ export const columns: ColumnDef<ICoupon>[] = [
         }
         try {
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/update-a-coupon/${coupon._id}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/update-a-coupon/${coupon._id}`, {
               method: "PATCH",
               headers: {
                   "Content-Type": "application/json",
@@ -343,7 +343,7 @@ export const columns: ColumnDef<ICoupon>[] = [
         setIsTrashButtonLoading(true);
         try {
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/delete-a-coupon/${coupon._id!}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/delete-a-coupon/${coupon._id!}`, {
               method: "DELETE",
               headers: {
                   "Content-Type": "application/json",
@@ -708,7 +708,7 @@ export function DataTable() {
       }
       couponCreateForm.clearErrors();
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/create-a-coupon`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/create-a-coupon`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -746,7 +746,7 @@ export function DataTable() {
     try {
       setIsMultipleTrashButtonLoading(true);
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/delete-multiple-coupons`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}coupons/delete-multiple-coupons`, {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",

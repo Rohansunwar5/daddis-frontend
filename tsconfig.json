@@ -13,7 +13,6 @@
   "include": ["src"],
   "files": [],
   "references": [
-    // @ts-ignore
     {
       "path": "./tsconfig.app.json"
     },

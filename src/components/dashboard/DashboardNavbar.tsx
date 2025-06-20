@@ -15,7 +15,7 @@ export const DashboardNavbar = () => {
         setIsLogoutButtonLoading(true);
         try {
             // @ts-ignore
-            const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/logout`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/logout`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

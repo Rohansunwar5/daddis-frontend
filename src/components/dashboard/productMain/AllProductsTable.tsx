@@ -61,7 +61,7 @@ export const ToastWarning = () => {
 const getProducts = async () => {
   try {
     // @ts-ignore
-    const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/get-all-products`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/get-all-products`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export const productFormSchema = z.object({
 export const getCategories = async () => {
   try {
     // @ts-ignore
-    const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/get-all-categories`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/get-all-categories`);
 
     const data = await response.json();
 
@@ -300,7 +300,7 @@ export const columns: ColumnDef<IProduct>[] = [
         console.log(values);
         try {
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/edit-product/${productData._id}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/edit-product/${productData._id}`, {
               method: "PATCH",
               headers: {
                   "Content-Type": "application/json",
@@ -334,7 +334,7 @@ export const columns: ColumnDef<IProduct>[] = [
         setIsTrashButtonLoading(true);
         try {
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/delete-a-product/${productData._id!}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/delete-a-product/${productData._id!}`, {
               method: "DELETE",
               headers: {
                   "Content-Type": "application/json",
@@ -741,7 +741,7 @@ export function DataTable() {
         const formData = new FormData();
         formData?.append("productImages", image);
         // @ts-ignore
-        return fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
+        return fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
           headers: {
             "filetype": "productImages"
           },
@@ -788,12 +788,15 @@ export function DataTable() {
           if ( fileInputRef?.current ) {
             const dataTransfer = new DataTransfer();
             // Add each file to the DataTransfer object
+            // @ts-ignore
             const fileList: File[] = fileInputRef?.current?.files!;
             const newFileArray = [...fileList]?.filter( (file: File) => preview.file.name != file.name ); 
             newFileArray.forEach(file => dataTransfer.items.add(file));
             const newFileList = dataTransfer.files; 
+            // @ts-ignore
             fileInputRef.current.files = newFileList;
             setImages(newFileArray);
+            // @ts-ignore
             console.log(newFileArray, newFileList, fileInputRef.current.files, previews, images);
             
           } 
@@ -838,7 +841,7 @@ export function DataTable() {
     setIsButtonLoading(true);
     try {
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/add-product`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/add-product`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -883,7 +886,7 @@ export function DataTable() {
     setIsMultipleTrashButtonLoading(true);
     try {
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/delete-multiple-products`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/delete-multiple-products`, {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",

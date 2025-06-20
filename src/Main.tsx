@@ -31,6 +31,9 @@ import { BlogPage } from "./components/home/Blog";
 import { Expandedblog } from "./components/home/ExpandedBlog";
 import { FAQs, PrivacyPolicy, TermsAndConditions } from "./components/home/QuickLinks";
 import { AccountDetails } from "./components/home/AccountDetails";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { SetShipping } from "./components/home/SetShipping";
+import { PaymentSuccess } from "./components/home/PaymentSuccess";
 
 // import { ProductPage } from "./components/home/ProductsPage";
 
@@ -69,6 +72,8 @@ const router = createBrowserRouter(
             </Route>
             <Route path="" element={<App />}>
                 <Route path="" element={<HomePage />} />
+                <Route path="set-shipping" element={<SetShipping />} />
+                <Route path="payment-success" element={<PaymentSuccess />} />
                 <Route path="terms-and-conditions" element={<TermsAndConditions />} />
                 <Route path="account-details" element={<AccountDetails />} />
                 <Route path="privacy-policy" element={<PrivacyPolicy />} />
@@ -87,11 +92,16 @@ const router = createBrowserRouter(
     )
 );
 
+// @ts-ignore
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <Provider store={store}>
-            <RouterProvider router={router} />
-            <Toaster />
+            <GoogleOAuthProvider clientId={CLIENT_ID}>
+                <RouterProvider router={router} />
+                <Toaster />
+            </GoogleOAuthProvider>
         </Provider>
     </React.StrictMode>
 );

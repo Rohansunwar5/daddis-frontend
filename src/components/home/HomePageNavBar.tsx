@@ -1,223 +1,264 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, 
+    // useNavigate
+ } from "react-router-dom";
 import { Button } from "../ui/button";
-import { CircleHelp, Eye, EyeOff, Headset, HeartCrack, HomeIcon, Loader2, LoaderCircle, LogIn, LogOut, LucideHeart, Settings, ShoppingCart, Store, UserCircle2, X } from "lucide-react";
+import { CircleHelp,
+    // Eye, EyeOff,
+     Headset, HeartCrack, HomeIcon,
+    //   Loader2,
+      LoaderCircle, LogIn, LogOut, LucideHeart,
+    //    Settings,
+        ShoppingCart, Store, UserCircle2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { yellow } from "@mui/material/colors";
-import { Avatar, createTheme, IconButton, TextField, ThemeProvider } from "@mui/material";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { yellow } from "@mui/material/colors";
+import { Avatar
+    // , createTheme, IconButton, TextField, ThemeProvider 
+} from "@mui/material";
+// import { z } from "zod";
+// import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { GoogleLogin } from "@react-oauth/google";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { Squash as Hamburger } from 'hamburger-react';
 import { slide as Menu } from 'react-burger-menu';
 import gsap from "gsap";
 import { resetCustomerData, setCustomerData } from "../../redux/slices/websiteSlice";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { Badge } from "../ui/badge";
 import { ICartItem, ICategory, ICustomer, IProduct } from "../../utils/constants";
-import { updateCart, updateWishList } from "../../utils/utility-functions";
+// import { updateCart, updateWishList } from "../../utils/utility-functions";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { mergeCart } from "../dashboard/authentication/AuthenticationComponent";
+import { toast } from "sonner";
+import { ToastSuccess } from "../dashboard/productMain/AllProductsTable";
 
-export const loginFormSchema = z.object({
-    email: z.string().email("Invalid email, enter a valid email address!"),
-    password: z.string().min(8, { message: "Password must be 8 characters long"}).refine((password) => /[a-z]/.test(password), { message: "Password must contain at least one lower case character!"}).refine((password) => /[A-Z]/.test(password), { message: "Password must contain at least one upper case character!"}).refine((password) => /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(password), { message: "Password must contain at least one special character!"}).refine((password) => /[0-9]/.test(password), { message: "Password must contain at least one numberic value!"})
-});
+// export const loginFormSchema = z.object({
+//     email: z.string().email("Invalid email, enter a valid email address!"),
+//     password: z.string().min(8, { message: "Password must be 8 characters long"}).refine((password) => /[a-z]/.test(password), { message: "Password must contain at least one lower case character!"}).refine((password) => /[A-Z]/.test(password), { message: "Password must contain at least one upper case character!"}).refine((password) => /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(password), { message: "Password must contain at least one special character!"}).refine((password) => /[0-9]/.test(password), { message: "Password must contain at least one numberic value!"})
+// });
 
-export const signupFormSchema = z.object({
-    firstName: z.string().min(1, { message: "Enter your first name!"}),
-    lastName: z.string().min(1, { message: "Enter your last name!"}),
-    email: z.string().email("Invalid email, enter a valid email address!"),
-    phoneNo: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
-        message: 'Invalid phone number!',
-    }),
-    password: z.string().min(8, { message: "Password must be 8 characters long"}).refine((password) => /[a-z]/.test(password), { message: "Password must contain at least one lower case character!"}).refine((password) => /[A-Z]/.test(password), { message: "Password must contain at least one upper case character!"}).refine((password) => /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(password), { message: "Password must contain at least one special character!"}).refine((password) => /[0-9]/.test(password), { message: "Password must contain at least one numberic value!"}),
-    confirmPassword: z.string().min(1, { message: "Please confirm your password!"})
-}).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match!",
-    path: ['confirmPassword'],
-});
+// export const signupFormSchema = z.object({
+//     firstName: z.string().min(1, { message: "Enter your first name!"}),
+//     lastName: z.string().min(1, { message: "Enter your last name!"}),
+//     email: z.string().email("Invalid email, enter a valid email address!"),
+//     phoneNo: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+//         message: 'Invalid phone number!',
+//     }),
+//     password: z.string().min(8, { message: "Password must be 8 characters long"}).refine((password) => /[a-z]/.test(password), { message: "Password must contain at least one lower case character!"}).refine((password) => /[A-Z]/.test(password), { message: "Password must contain at least one upper case character!"}).refine((password) => /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(password), { message: "Password must contain at least one special character!"}).refine((password) => /[0-9]/.test(password), { message: "Password must contain at least one numberic value!"}),
+//     confirmPassword: z.string().min(1, { message: "Please confirm your password!"})
+// }).refine((data) => data.password === data.confirmPassword, {
+//     message: "Passwords don't match!",
+//     path: ['confirmPassword'],
+// });
 
-const textFieldTheme = createTheme({
-    components: {
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    "& .MuiInputBase-root" : {
-                        color: `${yellow[600]}`,
-                    },
-                    "& .MuiInputLabel-root" : {
-                        // color: `${yellow[300]}`
-                    },
-                    "& .MuiInputLabel-root.Mui-focused" : {
-                        color: `${yellow[600]}`
-                    },
-                    "& .MuiOutlinedInput-root" : {
-                        "& filedset" : {
-                            borderColor: `${"purple"}`
-                        },
-                        '&:hover fieldset': {
-                            borderColor: `${yellow[500]}`,
-                          },
-                        '&.Mui-focused fieldset': {
-                            borderColor: `${yellow[600]}`,
-                        },
-                        '& .MuiOutlinedInput-input': {
-                            color: `${yellow[600]}`, 
-                        },
-                    },
-                },
-            }
+// const textFieldTheme = createTheme({
+//     components: {
+//         MuiTextField: {
+//             styleOverrides: {
+//                 root: {
+//                     "& .MuiInputBase-root" : {
+//                         color: `${yellow[600]}`,
+//                     },
+//                     "& .MuiInputLabel-root" : {
+//                         // color: `${yellow[300]}`
+//                     },
+//                     "& .MuiInputLabel-root.Mui-focused" : {
+//                         color: `${yellow[600]}`
+//                     },
+//                     "& .MuiOutlinedInput-root" : {
+//                         "& filedset" : {
+//                             borderColor: `${"purple"}`
+//                         },
+//                         '&:hover fieldset': {
+//                             borderColor: `${yellow[500]}`,
+//                           },
+//                         '&.Mui-focused fieldset': {
+//                             borderColor: `${yellow[600]}`,
+//                         },
+//                         '& .MuiOutlinedInput-input': {
+//                             color: `${yellow[600]}`, 
+//                         },
+//                     },
+//                 },
+//             }
+//         }
+//     }
+// });
+
+const closeAuthDialog = () => {
+    gsap.to("#auth-component", {
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => {
+            gsap.to("#auth-component", {
+                display: "none",
+                duration: 0,
+            });
         }
-    }
-});
+    });
+};
+
+// const openAuthDialog = () => {
+//     gsap.to("#auth-component", {
+//         backdropFilter: 'blur(5px)',
+//         display: "flex",
+//         duration: 1
+//     });
+//     gsap.to("#auth-component", {
+//         opacity: 100,
+//         duration: 1
+//     });
+// };
+
 
 export const AuthComponent = () => {
 
-    const [ isSignUp, setIsSignUp ] = useState(false);
+    // const [ isSignUp, setIsSignUp ] = useState(false);
 
-    const loginForm = useForm<z.infer<typeof loginFormSchema>>({
-        resolver: zodResolver(loginFormSchema),
-        defaultValues: {
-            email: "",
-            password: ""
-        }
-    });
+    // const loginForm = useForm<z.infer<typeof loginFormSchema>>({
+    //     resolver: zodResolver(loginFormSchema),
+    //     defaultValues: {
+    //         email: "",
+    //         password: ""
+    //     }
+    // });
 
-    const signupForm = useForm<z.infer<typeof signupFormSchema>>({
-        resolver: zodResolver(signupFormSchema),
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-        }
-    });
+    // const signupForm = useForm<z.infer<typeof signupFormSchema>>({
+    //     resolver: zodResolver(signupFormSchema),
+    //     defaultValues: {
+    //         firstName: "",
+    //         lastName: "",
+    //         email: "",
+    //         password: "",
+    //         confirmPassword: "",
+    //     }
+    // });
 
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
     // const navigate = useNavigate();
 
-    const [ isLoginButtonLoading, setIsLoginButtonLoading ] = useState(false);
-    const [ isSignUpButtonLoading, setIsSignUpButtonLoading ] = useState(false);
+    // const [ isLoginButtonLoading, setIsLoginButtonLoading ] = useState(false);
+    // const [ isSignUpButtonLoading, setIsSignUpButtonLoading ] = useState(false);
 
-    const onLoginFormSubmit = async (values: z.infer<typeof loginFormSchema>) => {
-        console.log(values);
-        setIsLoginButtonLoading(true);
-        Cookies.remove("refreshToken");
-        Cookies.remove("accessToken");
-        try {
-            // @ts-ignore
-            const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: 'include',
-                body: JSON.stringify({email: values.email, password: values.password})
-            });
+    // const onLoginFormSubmit = async (values: z.infer<typeof loginFormSchema>) => {
+    //     console.log(values);
+    //     setIsLoginButtonLoading(true);
+    //     Cookies.remove("refreshToken");
+    //     Cookies.remove("accessToken");
+    //     try {
+    //         // @ts-ignore
+    //         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/login`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             credentials: 'include',
+    //             body: JSON.stringify({email: values.email, password: values.password})
+    //         });
 
-            if (!response.ok) {
-                const errData = await response.json();
-                loginForm.setError(errData.errors[0].type, {type: "manual", message: errData.errors[0].errMsg})
-                throw new Error("HTTP error! status: "+response.status);
-            }
+    //         if (!response.ok) {
+    //             const errData = await response.json();
+    //             loginForm.setError(errData.errors[0].type, {type: "manual", message: errData.errors[0].errMsg})
+    //             throw new Error("HTTP error! status: "+response.status);
+    //         }
 
-            console.log(response);
+    //         console.log(response);
             
-            const data = await response.json();
+    //         const data = await response.json();
 
-            // if ( data.data.user.role === "Admin" ) {
-            //     loginForm.setError("email", { type: "manual", message: "Admin login not allowed!"})
-            //     throw new Error("Admin login not allowed!");
-            // }
+    //         // if ( data.data.user.role === "Admin" ) {
+    //         //     loginForm.setError("email", { type: "manual", message: "Admin login not allowed!"})
+    //         //     throw new Error("Admin login not allowed!");
+    //         // }
             
-            dispatch(setCustomerData(data.data.user));
-            const cart: ICartItem[] = JSON.parse(localStorage.getItem("cart")!);
-            const wishList: IProduct[] = JSON.parse(localStorage.getItem("wishList")!);
-            console.log(cart, wishList, data?.data?.user?.wishList, data?.data?.user?.cart);
-            /* Todo: fix cart issue */
-            cart?.map(async (item: ICartItem) => {
-                const sameItem = data?.data?.user?.cart?.filter((cartItem: ICartItem) => item?.product?._id == cartItem?.product?._id).length > 0 ? true : false;
-                console.log(sameItem, item);
-                const result = await updateCart(item, true, sameItem, data?.data?.user?.cart, dispatch, true, data?.data?.user?.wishList);
-                console.log(result);
-            });
-            wishList?.map(async (product: IProduct) => {
-                const isItemPresent = data?.data?.user?.wishList?.filter((item: IProduct) => product._id == item._id).length > 0 ? true : false;
-                console.log(isItemPresent);
-                if ( isItemPresent ) return;
-                await updateWishList(product, true, data?.data?.user?.wishList, dispatch, true);            
-            });
-            // localStorage.setItem("cart", JSON.stringify("[]"));
-            // localStorage.setItem("wishList", JSON.stringify("[]"));
-            console.log(data.data.user);
-            loginForm.reset();
-            gsap.to("#auth-component", {
-                opacity: 0,
-                display: "none"
-            });
-        } catch (error) {
-            console.error("Error: ", error);
-        }
-        setIsLoginButtonLoading(false);
-    };
+    //         dispatch(setCustomerData(data.data.user));
+    //         const cart: ICartItem[] = JSON.parse(localStorage.getItem("cart")!);
+    //         const wishList: IProduct[] = JSON.parse(localStorage.getItem("wishList")!);
+    //         console.log(cart, wishList, data?.data?.user?.wishList, data?.data?.user?.cart);
+    //         /* Todo: fix cart issue */
+    //         cart?.map(async (item: ICartItem) => {
+    //             const sameItem = data?.data?.user?.cart?.filter((cartItem: ICartItem) => item?.product?._id == cartItem?.product?._id).length > 0 ? true : false;
+    //             console.log(sameItem, item);
+    //             const result = await updateCart(item, true, sameItem, data?.data?.user?.cart, dispatch, true, data?.data?.user?.wishList);
+    //             console.log(result);
+    //         });
+    //         wishList?.map(async (product: IProduct) => {
+    //             const isItemPresent = data?.data?.user?.wishList?.filter((item: IProduct) => product._id == item._id).length > 0 ? true : false;
+    //             console.log(isItemPresent);
+    //             if ( isItemPresent ) return;
+    //             await updateWishList(product, true, data?.data?.user?.wishList, dispatch, true);            
+    //         });
+    //         // localStorage.setItem("cart", JSON.stringify("[]"));
+    //         // localStorage.setItem("wishList", JSON.stringify("[]"));
+    //         console.log(data.data.user);
+    //         loginForm.reset();
+    //         gsap.to("#auth-component", {
+    //             opacity: 0,
+    //             display: "none"
+    //         });
+    //     } catch (error) {
+    //         console.error("Error: ", error);
+    //     }
+    //     setIsLoginButtonLoading(false);
+    // };
 
-    const onSignUpFormSubmit = async (values: z.infer<typeof signupFormSchema>) => {
-        console.log(values);
-        setIsLoginButtonLoading(true);
-        try {
-            // @ts-ignore
-            const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    firstName: values.firstName,
-                    lastName: values.lastName,
-                    email: values.email,
-                    password: values.password,
-                    role: "Customer",
-                    luckyPoints: 0,
-                    emailVerified: false,
-                    phoneNoVerified: false,
-                })
-            });
+    // const onSignUpFormSubmit = async (values: z.infer<typeof signupFormSchema>) => {
+    //     console.log(values);
+    //     setIsLoginButtonLoading(true);
+    //     try {
+    //         // @ts-ignore
+    //         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/register`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             credentials: 'include',
+    //             body: JSON.stringify({
+    //                 firstName: values.firstName,
+    //                 lastName: values.lastName,
+    //                 email: values.email,
+    //                 password: values.password,
+    //                 role: "Customer",
+    //                 luckyPoints: 0,
+    //                 emailVerified: false,
+    //                 phoneNoVerified: false,
+    //             })
+    //         });
 
-            if (!response.ok) {
-                const errData = await response.json();
-                console.log(errData.errors[0]);
+    //         if (!response.ok) {
+    //             const errData = await response.json();
+    //             console.log(errData.errors[0]);
                 
-                signupForm.setError(errData.errors[0].type, {type: "manual", message: errData?.errors[0]?.message})
-                throw new Error("HTTP error! status: "+response.status);
-            }
+    //             signupForm.setError(errData.errors[0].type, {type: "manual", message: errData?.errors[0]?.message})
+    //             throw new Error("HTTP error! status: "+response.status);
+    //         }
 
             
-            const data = await response.json();
+    //         const data = await response.json();
             
-            console.log(data);
+    //         console.log(data);
             
 
-            // if ( data?.data?.user?.role !== "Customer" ) {
-            //     loginForm.setError("email", { type: "manual", message: "Unauthorized user!"})
-            //     throw new Error("Unauthorized user");
-            // }
-            onLoginFormSubmit(values);
+    //         // if ( data?.data?.user?.role !== "Customer" ) {
+    //         //     loginForm.setError("email", { type: "manual", message: "Unauthorized user!"})
+    //         //     throw new Error("Unauthorized user");
+    //         // }
+    //         onLoginFormSubmit(values);
 
-        } catch (error) {
-            console.error(error);
-        }
-        setIsLoginButtonLoading(false);
-    };
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    //     setIsLoginButtonLoading(false);
+    // };
 
-    const [ showPassword, setShowPassword ] = useState(false);
-    const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
+    // const [ showPassword, setShowPassword ] = useState(false);
+    // const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
 
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+    // const handleClickShowPassword = () => setShowPassword((show) => !show);
+    // const handleShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
     // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     //   event.preventDefault();
@@ -240,16 +281,110 @@ export const AuthComponent = () => {
                     });
                 }} ><X className="w-6 h-6 p-1 border hover:stroke-white hover:bg-yellow-300 transition-all border-yellow-300 stroke-gray-500 rounded-full" /></Button>
                 <img src={"/logo.svg"} className="w-[80px]"/>
-                <h1>{isSignUp ? "Start your experience with Daadi's" : "Login to continue shopping!"}</h1>
-                <div className="w-full" >
-                    {!isSignUp ? (<Form {...loginForm} key={"login-form"}>
+                {/* <h1>{isSignUp ? "Start your experience with Daadi's" : "Login to continue shopping!"}</h1> */}
+                <h1>{`Continue with google!`}</h1>
+                <div className="w-full flex justify-center items-center" >
+                    <GoogleLogin shape="circle" onSuccess={ async (credintialResponse) => {
+                        try {
+                            console.log(credintialResponse);
+                            // @ts-ignore
+                            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/google/login`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                credentials: 'include',
+                                body: JSON.stringify({ token: credintialResponse?.credential })
+                            });
+                    
+                            if (!response.ok) {
+                                console.log(response)
+                                throw new Error("HTTP error! status: "+response.status);
+                            }
+                    
+                            console.log(response);
+                            
+                            const data = await response.json();
+                            
+                            console.log(data);
+
+                            const guestCart = JSON.parse(localStorage.getItem('cart')!);
+                            // const guestVideoCallCart = JSON.parse(localStorage.getItem('videoCallCart')!);
+                            // const guestWishList = JSON.parse(localStorage.getItem('wishList')!);
+
+                            console.log(guestCart, guestCart?.length);
+
+                            const mergedCart = mergeCart(guestCart, data?.data?.user?.cart);
+
+                            // @ts-ignore
+                            const updateCartResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-cart`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({ updatedCart: mergedCart }),
+                                credentials: "include"
+                            });
+
+                            console.log(updateCartResponse);
+
+                            if (!updateCartResponse.ok) throw new Error("HTTP error! status: "+response.status+", "+response.statusText);
+                            
+                            const updateCartData = await updateCartResponse.json();
+
+                            // if (data.data.role !== "Customer") throw new Error(`Error: ${401}, Unauthorised user`);
+                            // dispatch(setCustomerData(updateCartData.data));
+                            console.log(updateCartData);
+                            // return true;
+                            // guestWishList.forEach((item : IWishListItem) => {
+                            //     if ( guestWishList?.filter((wishListItem : IWishListItem) => wishListItem?.product?._id == item?.product?._id)?.length > 0 )
+                            //         return
+                            //     updateWishList(item, true, data?.data?.user?.wishList, dispatch, true, data?.data?.user?.cart, data?.data?.user?.videoCallCart);
+                            // });
+
+                            // guestVideoCallCart.forEach((item : ICartItem) => {
+                            //     if ( guestVideoCallCart?.filter((cartItem : ICartItem) => cartItem?.product?._id == item?.product?._id)?.length > 0 )
+                            //         return;
+                            //     updateVideoCallCart(item, true, false, data?.data?.user?.cart, dispatch, true, data?.data?.user?.videoCallCart, data?.data?.user?.wishList);
+                            // });
+
+                            // const currentUserResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/current-user`, {
+                            //     method: "GET",
+                            //     headers: {
+                            //         "Content-Type": "application/json",
+                            //     },
+                                // credentials: "include"
+                            // });
+                            // console.log(currentUserResponse);
+                
+                            // if (!currentUserResponse.ok) {
+                            //   if ( currentUserResponse.statusText == "Unauthorized" || currentUserResponse.status == 401 ) {
+                                // console.log(await createGuestUser());
+                            //   }
+                            //   throw new Error("HTTP error! status: "+currentUserResponse.status+", "+currentUserResponse.statusText);
+                            // }
+                            // const currentUserData = await currentUserResponse.json();
+                
+                            // console.log("currentUserData?.data: ", currentUserData?.data, "data?.data: ", data?.data);
+                
+                            // if (data.data.role !== "Customer") throw new Error(`Error: ${401}, Unauthorised user`);
+                            // dispatch(setCustomerData(currentUserData.data));
+                
+                            dispatch(setCustomerData({ ...data?.data?.user, cart: updateCartData?.data?.cart }));
+                            toast.success("Logged In successfully!", { icon: <ToastSuccess />, className: "!inria-serif-regular !border-[#A68A7E] !text-[#A68A7E] !bg-white" });
+                            closeAuthDialog();
+
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    }}/>
+                    {/* {!isSignUp ? (<Form {...loginForm} key={"login-form"}>
                         <form className="w-full flex flex-col justify-center gap-4 items-center" onSubmit={loginForm.handleSubmit(onLoginFormSubmit)}>
                             <FormField
                                 control={loginForm.control}
                                 name="email"
                                 render={({ field }) => {
                                     return <FormItem className="flex w-full justify-center items-center flex-col">
-                                        {/* <FormLabel>Username</FormLabel> */}
                                         <FormControl className="">
                                             <ThemeProvider theme={textFieldTheme}>
                                                 <TextField {...field} fullWidth size="small" label="Email" variant="outlined" className="" />
@@ -289,7 +424,6 @@ export const AuthComponent = () => {
                                 name="firstName"
                                 render={({ field }) => {
                                     return <FormItem className="flex w-full justify-center items-center flex-col">
-                                        {/* <FormLabel>Username</FormLabel> */}
                                         <FormControl className="">
                                             <ThemeProvider theme={textFieldTheme}>
                                                 <TextField {...field} fullWidth size="small" label="First name" variant="outlined" className="" />
@@ -304,7 +438,6 @@ export const AuthComponent = () => {
                                 name="lastName"
                                 render={({ field }) => {
                                     return <FormItem className="flex w-full justify-center items-center flex-col">
-                                        {/* <FormLabel>Username</FormLabel> */}
                                         <FormControl className="">
                                             <ThemeProvider theme={textFieldTheme}>
                                                 <TextField {...field} fullWidth size="small" label="Last name" variant="outlined" className="" />
@@ -319,7 +452,6 @@ export const AuthComponent = () => {
                                 name="email"
                                 render={({ field }) => {
                                     return <FormItem className="flex w-full justify-center items-center flex-col">
-                                        {/* <FormLabel>Username</FormLabel> */}
                                         <FormControl className="">
                                             <ThemeProvider theme={textFieldTheme}>
                                                 <TextField {...field} fullWidth size="small" label="Email" variant="outlined" className="" />
@@ -334,7 +466,6 @@ export const AuthComponent = () => {
                                 name="phoneNo"
                                 render={({ field }) => {
                                     return <FormItem className="flex w-full justify-center items-center flex-col">
-                                        {/* <FormLabel>Username</FormLabel> */}
                                         <FormControl className="">
                                             <ThemeProvider theme={textFieldTheme}>
                                                 <TextField {...field} fullWidth size="small" label="Phone no." type="number" variant="outlined" className="" />
@@ -381,13 +512,9 @@ export const AuthComponent = () => {
                                     setIsSignUp(!isSignUp);
                                 }}>{isSignUp ? "Already have an account? Log in!" : "Don't have one? Create now!"}</Button> 
                                 <Button disabled={isLoginButtonLoading} className="mt-4 w-16 self-end bg-yellow-100 text-yellow-300 hover:text-yellow-500 hover:bg-yellow-300" variant={"ghost"} type="submit">{isLoginButtonLoading ? <Loader2 className="animate-spin" /> : "Sign Up"}</Button> 
-                                {/* <Button className="mt-4 w-16 self-end bg-red-600 text-yellow-300 hover:text-yellow-500 hover:bg-yellow-300" variant={"ghost"} type="submit" onClick={(e) => {
-                                    e.preventDefault();
-                                    
-                                }}>{isLoginButtonLoading ? <Loader2 className="animate-spin" /> : "Sign Up"}</Button>  */}
                             </div>
                         </form>
-                    </Form>)}
+                    </Form>)} */}
                 </div>
             </div>
         // {/* </div> */}
@@ -402,7 +529,7 @@ export const HomePageNavBar = () => {
     const [ currentWishlist, setCurrentWishList ] = useState<Array<IProduct>>([]);
     const [ currentCart, setCurrentCart ] = useState<Array<ICartItem>>([]);
     const productDropMenuRef = useRef(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         setCurrentWishList(customerData?._id ? customerData?.wishList : JSON.parse(localStorage.getItem("wishList")!));
@@ -421,7 +548,7 @@ export const HomePageNavBar = () => {
         setIsLogoutButtonLoading(true);
         try {
             // @ts-ignore
-            const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/logout`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/logout`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -567,7 +694,7 @@ export const HomePageNavBar = () => {
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-[220px] p-4 z-[110]" side="bottom" sideOffset={12}>
-                            <Button variant={"ghost"} disabled={( customerData == null || customerData?._id == null)} className="w-full flex justify-start gap-4" onClick={() => {
+                            {/* <Button variant={"ghost"} disabled={( customerData == null || customerData?._id == null)} className="w-full flex justify-start gap-4" onClick={() => {
                                 navigate("/account-details")
                                 setIsPopOverOpen(false);
                             }}>
@@ -575,7 +702,7 @@ export const HomePageNavBar = () => {
                                     <Settings className="w-[20px]"/>
                                 </span>
                                 <p className="font-[Quicksand]">Account settings</p>
-                            </Button>
+                            </Button> */}
                             <Button disabled={isLogoutButtonLoading} onClick={(e: any) => {
                                 e.preventDefault();
                                 if ( customerData == null || customerData?.role == "Guest" || !customerData?._id ) {

@@ -10,7 +10,7 @@ import { useNavigate} from "react-router-dom";
 const getBlogs = async () => {
     try {
         // @ts-ignore
-        const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/get-all-blogs`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/get-all-blogs`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -178,7 +178,7 @@ export const columns: ColumnDef<ICustomer>[] = [
         setIsTrashButtonLoading(true);
         try {
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/delete-a-customer/${customer?._id!}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/delete-a-customer/${customer?._id!}`, {
               method: "DELETE",
               headers: {
                   "Content-Type": "application/json",
@@ -212,7 +212,7 @@ export const columns: ColumnDef<ICustomer>[] = [
         console.log(values);
         try {
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-details/`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-details/`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -465,7 +465,7 @@ export function DataTable() {
   const getCustomers = async () => {
     try {
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/get-all-customers/`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/get-all-customers/`);
   
       const data = await response.json();
       
@@ -541,7 +541,7 @@ export function DataTable() {
     console.log(values);
     try {
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/register`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -580,7 +580,7 @@ export function DataTable() {
     setIsMultipleTrashButtonLoading(true);
     try {
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/delete-multiple-customers`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/delete-multiple-customers`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

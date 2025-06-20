@@ -3,6 +3,27 @@ import { ICartItem, IProduct } from "./constants";
 import { setCustomerData } from "../redux/slices/websiteSlice";
 import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
 
+export const sendEmail = async (email: { from: string, to: string[], subject: string, html: string }) => {
+    try {
+        // @ts-ignore
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}email/send-email`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+            body: JSON.stringify({ email: email })
+        });
+    
+        const data = await response.json();
+        console.log(data);
+        return { data };
+    } catch (error) {
+        console.log(error);
+        return { error };
+    }
+};
+
 export const updateWishList = async ( product: IProduct, isAdd: boolean, currentWishlist: IProduct[], dispatch: Dispatch<UnknownAction>, isUserPresent: boolean, cart?: ICartItem[] ) => {
     
     // const dispatch = useDispatch();
@@ -76,6 +97,45 @@ export const updateCart = async ( cartItem: ICartItem, isAdd: boolean, sameItem:
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ updatedCart: newCart }),
+            credentials: "include"
+        });
+        console.log(response);
+
+        if (!response.ok) throw new Error("HTTP error! status: "+response.status+", "+response.statusText);
+        
+        const data = await response.json();
+
+        // if (data.data.role !== "Customer") throw new Error(`Error: ${401}, Unauthorised user`);
+        dispatch(setCustomerData(data.data));
+        return true;
+    } catch (error) {
+        console.error("Error: ", error);
+        // console.log(userData);
+        return false;
+    }
+};
+
+export const clearCart = async ( dispatch: Dispatch<UnknownAction>, isUserPresent: boolean) => {
+
+    let newCart;
+
+    if ( !isUserPresent ) {
+        console.log(newCart);
+        localStorage.setItem("cart", JSON.stringify([]));
+        dispatch(setCustomerData({cart : []}));
+        return true;
+    }
+
+    // console.log(updateCart);
+
+    try {
+        // @ts-ignore
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-cart`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ updatedCart: [] }),
             credentials: "include"
         });
         console.log(response);

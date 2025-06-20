@@ -149,7 +149,7 @@ const WishListCard = ({ userData, product, wishList, setWishListData, cart } : {
                     // console.log([updatedWishList.map((item: IProduct) => item._id)]);
                     // try {
                     //     // @ts-ignore
-                    //     const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-wishlist`, {
+                    //     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}users/update-user-wishlist`, {
                     //         method: "PATCH",
                     //         headers: {
                     //             "Content-Type": "application/json",

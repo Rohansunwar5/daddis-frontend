@@ -12,7 +12,7 @@ import { SaveIcon } from "lucide-react";
 const getEmails = async () => {
     try {
         // @ts-ignore
-        const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}emails/get-all-emails/`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}emails/get-all-emails/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const getEmails = async () => {
 const updateEmail = async (id: string , emailData: IEmail) => {
     try {
         // @ts-ignore
-        const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}emails/update-email/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}emails/update-email/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

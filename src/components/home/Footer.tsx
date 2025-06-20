@@ -56,7 +56,7 @@ export const Footer = () => {
                             Topic
                         </h2>
                         <Link className="underline" to={"/about-us"}>about us</Link>
-                        <Link className="underline" to={"/products"}>Products</Link>
+                        <Link className="underline" to={"/category/all"}>Products</Link>
                         <Link className="underline" to={"/contact"}>Contact Us</Link>
                     </div>
                 </div>

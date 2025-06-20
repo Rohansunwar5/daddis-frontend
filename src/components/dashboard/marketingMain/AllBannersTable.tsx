@@ -88,7 +88,7 @@ export const bannerFormSchema = z.object({
 const getBanners = async () => {
   try {
     // @ts-ignore
-    const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/get-all-banners`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/get-all-banners`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export const columns: ColumnDef<ISampleBanners>[] = [
         setIsTrashButtonLoading(true);
         try {
           // @ts-ignore
-        const deleteImageBannerResponse = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/delete`, {
+        const deleteImageBannerResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/delete`, {
             method: "DELETE",
             headers: {
                 "publicId" : row.original.imageUrl!.publicId,
@@ -232,7 +232,7 @@ export const columns: ColumnDef<ISampleBanners>[] = [
         };
         if ( row.original.bannerType == "hero-section-banner" ) {
           // @ts-ignore
-          const deleteBannerElementResponse = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/delete`, {
+          const deleteBannerElementResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/delete`, {
               method: "DELETE",
               headers: {
                   "publicId" : row.original.bannerElementUrl!.publicId,
@@ -244,7 +244,7 @@ export const columns: ColumnDef<ISampleBanners>[] = [
         }
 
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/delete-a-banner/${row.original._id!}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/delete-a-banner/${row.original._id!}`, {
               method: "DELETE",
               headers: {
                   "Content-Type": "application/json",
@@ -270,7 +270,7 @@ export const columns: ColumnDef<ISampleBanners>[] = [
         
           if (banner.bannerType == "category-banner") {
             // @ts-ignore
-            const CategoryResponse = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/update-a-category/${row?.original?.bannerCategory!}`, {
+            const CategoryResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/update-a-category/${row?.original?.bannerCategory!}`, {
               headers: {
                 "Content-Type": "application/json",
               },
@@ -450,7 +450,7 @@ export function DataTable() {
       const formData = new FormData();
       formData.append("bannerElement", selectedBannerElement);
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
         headers: {
           // "Content-Type": "application/json",
           "filetype": "bannerElement"
@@ -493,7 +493,7 @@ export function DataTable() {
       const formData = new FormData();
       formData.append("bannerImage", selectedBannerImage);
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
         headers: {
           // "Content-Type": "application/json",
           "filetype": "bannerImage"
@@ -582,7 +582,7 @@ export function DataTable() {
       }
       let formdata = bannertype == "category-banner" ? values : formValues;
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/create-a-banner`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}banners/create-a-banner`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -608,7 +608,7 @@ export function DataTable() {
         console.log(updatedCategory);
         
         // @ts-ignore
-        const CategoryResponse = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/update-a-category/${values.bannerCategory}`, {
+        const CategoryResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}categories/update-a-category/${values.bannerCategory}`, {
           headers: {
             "Content-Type": "application/json",
           },

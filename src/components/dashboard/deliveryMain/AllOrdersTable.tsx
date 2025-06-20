@@ -1,4 +1,10 @@
-import { ICustomer, IOrder, IProduct, MONTHS, SAMPLE_CATEGORIES, SAMPLE_ORDERS, SAMPLE_PRODUCTS, WEEKDAYS } from "../../../utils/constants.ts";
+import { ICustomer, IOrder, 
+  // IProduct,
+   MONTHS,
+    // SAMPLE_CATEGORIES,
+     SAMPLE_ORDERS
+    // , SAMPLE_PRODUCTS
+    , WEEKDAYS } from "../../../utils/constants.ts";
 import * as React from "react"
 import {
   ColumnDef,
@@ -12,7 +18,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, LoaderCircle, MoreHorizontal, PencilIcon, Trash2 } from "lucide-react"
+import { ArrowUpDown, ChevronDown, LoaderCircle, 
+  // MoreHorizontal ,
+  PencilIcon, Trash2 } from "lucide-react"
  
 import { Button } from "../../ui/button.tsx"
 import { Checkbox } from "../../ui/checkbox.tsx"
@@ -38,6 +46,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "../../ui/label.tsx";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../../ui/select.tsx";
 import { ProductsOrderedTable } from "./ProductsOrderedTable.tsx";
+// import { toast } from "sonner";
+// import { ToastFaliure } from "../productMain/AllProductsTable.tsx";
 
 /* Todo: finish product delete and edit, add delete multiple button and update filter feature */
 
@@ -48,6 +58,31 @@ const handleProductEdit = () => {
 const handleProductDelete = () => {
 
 };
+
+// const getAllOrders = async () => {
+//   try {
+//     // @ts-ignore
+//     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}orders/get-all-orders`, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//           },
+//           credentials: 'include',
+//     });
+
+//     const data = await response.json();
+//     console.log(data);
+
+//     if ( !response.ok ){
+//       throw new Error("error" + response);
+//     }
+//     return data.data;
+//   } catch (error: any) {
+//     console.log(error);
+//     toast.error("Error while fetching product list, refresh!", { description: error, className: "bg-red-300 font-[quicksand]", icon: <ToastFaliure /> }, );
+//     return null;
+//   }
+// };
 
 export const columns: ColumnDef<IOrder>[] = [
   {
@@ -304,6 +339,15 @@ export function DataTable() {
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
  
+  // const [ orders, setOrders ] = React.useState<IOrder[]>();
+
+  React.useEffect(() => {
+    (async function () {
+      // const orders = await getAllOrders();
+      // console.log(orders);
+    })();
+  }, []);
+
   const table = useReactTable({
     data: SAMPLE_ORDERS,
     columns,
@@ -324,7 +368,7 @@ export function DataTable() {
   });
 
   const [ isMultipleTrashButtonLoading, setIsMultipleTrashButtonLoading ] = React.useState(false);
-  const [ isDialogOpen, setIsDialogOpen ] = React.useState(false);
+  // const [ isDialogOpen, setIsDialogOpen ] = React.useState(false);
 
   return (
 
@@ -334,6 +378,7 @@ export function DataTable() {
         <div>
           <Button disabled={isMultipleTrashButtonLoading  || table.getSelectedRowModel().rows.length <= 0} variant={"ghost"} className="bg-red-100 py-2 px-3 hover:bg-red-500 text-red-500 hover:text-white justify-self-end" onClick={ async (event) => {
             event.preventDefault();
+            setIsMultipleTrashButtonLoading(!isMultipleTrashButtonLoading);
             console.log(table.getSelectedRowModel().rows?.map(row => row?.original?._id));
             // await handleDeleteMultipleProducts(table.getSelectedRowModel().rows?.map(row => row?.original?._id!));
           }}>{isMultipleTrashButtonLoading ? <LoaderCircle className="animate-spin w-5 h-5" /> : <Trash2 className="w-5 h-5" />}</Button>

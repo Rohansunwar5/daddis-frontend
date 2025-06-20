@@ -79,7 +79,7 @@ export const HomePage = () => {
             {/* <div id="hero-section" className="p-0 m-0 bg-green-300 w-full h-[calc(100vh-56px)]"> */}
             <HomePageHeroCarousel bannerHeros={bannerHeros} />
             <div className="p-10 our-products-section">
-                <h1 className="font-bold text-xl flex justify-between items-center">Our products<Link to={"/all-products"}><Button variant={"ghost"} className="underline">View all</Button></Link></h1>
+                <h1 className="font-bold text-xl flex justify-between items-center">Our products<Link to={"/category/all"}><Button variant={"ghost"} className="underline">View all</Button></Link></h1>
                 <div className="mt-8 grid w-full sm:grid-cols-3 grid-cols-1 justify-items-center gap-5 h-full">
                     {categories.length === 0 ? [0, 1, 2].map(number => {
                         return (

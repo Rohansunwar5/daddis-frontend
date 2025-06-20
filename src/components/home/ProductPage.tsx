@@ -32,7 +32,7 @@ export const ProductPage = () => {
         (async function () {
             try {
                 // @ts-ignore
-                const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/get-product/${id}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}products/get-product/${id}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

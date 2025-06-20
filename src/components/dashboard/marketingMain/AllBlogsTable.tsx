@@ -70,7 +70,7 @@ export const blogFormSchema = z.object({
 const getBlogs = async () => {
   try {
     // @ts-ignore
-    const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/get-all-blogs`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/get-all-blogs`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -205,7 +205,7 @@ export const columns: ColumnDef<ISampleBlogs>[] = [
           const formData = new FormData();
           formData.append("blogCover", selectedBlogImage);
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
             headers: {
               // "Content-Type": "application/json",
               "filetype": "blogCover"
@@ -245,7 +245,7 @@ export const columns: ColumnDef<ISampleBlogs>[] = [
             throw new Error();
           }
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/update-a-blog/${blog._id}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/update-a-blog/${blog._id}`, {
             headers: {
               "Content-Type": "application/json",
             },
@@ -280,7 +280,7 @@ export const columns: ColumnDef<ISampleBlogs>[] = [
         event.preventDefault();
         try {
           // @ts-ignore
-          const deleteBlogImageResponse = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/delete`, {
+          const deleteBlogImageResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/delete`, {
               method: "DELETE",
               headers: {
                   "publicId" : blog.blogImgUrl.publicId,
@@ -290,7 +290,7 @@ export const columns: ColumnDef<ISampleBlogs>[] = [
           });
           if ( !deleteBlogImageResponse.ok ) throw new Error("blog image deletion failed!");
           // @ts-ignore
-          const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/delete-a-blog/${blog._id!}`, {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/delete-a-blog/${blog._id!}`, {
               method: "DELETE",
               headers: {
                   "Content-Type": "application/json",
@@ -541,7 +541,7 @@ export function DataTable() {
       const formData = new FormData();
       formData.append("blogCover", selectedBlogImage);
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}media/upload`, {
         headers: {
           // "Content-Type": "application/json",
           "filetype": "blogCover"
@@ -581,7 +581,7 @@ export function DataTable() {
         throw new Error();
       }
       // @ts-ignore
-      const response = await fetch(`http://localhost:${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/create-a-blog`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${import.meta.env.VITE_PORT}${import.meta.env.VITE_API_URL}blogs/create-a-blog`, {
         headers: {
           "Content-Type": "application/json",
         },
