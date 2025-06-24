@@ -6,16 +6,19 @@ import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 import { HomePageHeroCarousel } from "./HomePageHeroCarousel";
 import Marquee from "react-fast-marquee";
-import { LucideHeart } from "lucide-react";
+import { LucideHeart, MoveRight, Triangle } from "lucide-react";
+import ReactPlayer from 'react-player/lazy';
 import { Skeleton } from "@mui/material";
+import Carousel, { ArrowProps, DotProps }  from 'react-multi-carousel';
 // import { setHeroBanners } from "../../redux/slices/websiteSlice";
+import 'react-multi-carousel/lib/styles.css';
+import { Separator } from "../ui/separator";
 
 export const HomePage = () => {
 
     const [ categories, setCategories ] = useState<ICategory[]>([]);
     // const [ partnerBanners, setBannerPartners ] = useState([]);
     const [ topProducts, setTopProducts ] = useState<Array<IProduct>>([]);
-    
     const heroBannersFromStore = useSelector((state: any) => state.website.heroBanners);
     const categoriesFromStore = useSelector((state : any) => state.website.categories);
     const partnerBannersFromStore = useSelector((state : any) => state.website.partnerBanners);
@@ -68,6 +71,82 @@ export const HomePage = () => {
         // setBannerPartners(partnerBannersFromStore);
         setTopProducts(topProductsFromStore);
     }, [heroBannersFromStore, categoriesFromStore]);
+
+const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
+        const {
+            // carouselState: { currentSlide },
+        } = rest;
+        return (
+            <Button variant={"ghost"}
+                onClick={onClick}
+                className="absolute left-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+                aria-label="Previous"
+            >
+                <Triangle className="w-4 aspect-square -rotate-90" />
+            </Button>
+        );
+    };
+
+    const CustomRightArrow = ({ onClick, ...rest }: ArrowProps) => {
+        const {
+            // carouselState: { currentSlide },
+        } = rest;
+        return (
+            <Button variant={"ghost"}
+                onClick={onClick}
+                className="absolute right-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+                aria-label="Next"
+            >
+                <Triangle className="w-4 aspect-square rotate-90" />
+            </Button>
+        );
+    };
+
+    const CustomTestimonialRightButton = ({ onClick, ...rest }: ArrowProps) => {
+        const {
+            // carouselState: { currentSlide },
+        } = rest;
+        return (
+            <Button variant={"ghost"}
+                onClick={onClick}
+                className="absolute border border-yellow-500 right-[5%] bottom-[5%] text-yellow-500 hover:border-yellow-500 hover:bg-yellow-100/50 hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+                aria-label="Next"
+            >
+                <MoveRight className="w-4 aspect-square" />
+            </Button>
+        );
+    };
+
+    const CustomTestimonialLefttButton = ({ onClick, ...rest }: ArrowProps) => {
+        const {
+            // carouselState: { currentSlide },
+        } = rest;
+        return (
+            <Button variant={"ghost"}
+                onClick={onClick}
+                className="absolute border border-yellow-500 right-[12%] bottom-[5%] text-yellow-500 hover:border-yellow-500 hover:bg-yellow-100/50 hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+                aria-label="Next"
+            >
+                <MoveRight className="w-4 aspect-square -rotate-180" />
+            </Button>
+        );
+    };
+
+    
+
+    const CustomDot = ({ onClick, active }: DotProps) => (
+        <button
+          onClick={onClick}
+          className={`w-3 self-center justify-self-center h-3 rounded-full mx-1 border-2 border-yellow-600 ${active ? 'bg-yellow-500' : 'bg-transparent'}`}
+        />
+    );
+
+    const CustomTestimonialDot = ({ onClick, active }: DotProps) => (
+        <button
+          onClick={onClick}
+          className={`w-3 self-center justify-self-center h-3 rounded-full mx-1 border-2 border-yellow-600 ${active ? 'bg-yellow-500' : 'bg-transparent'}`}
+        />
+    );
 
     return (
         <div className="mt-[56px] font-[quicksand]">
@@ -159,6 +238,192 @@ export const HomePage = () => {
                 {/* </div> */}
                 </Marquee>
             </div>
+            <div className="w-full p-10 home-page-carousel-container">
+                <h1 className="font-bold text-xl mb-8 relative">From the gram</h1>
+                <Carousel
+                    customDot={<CustomDot />}
+                    customRightArrow={<CustomRightArrow onClick={() => {}} />}
+                    customLeftArrow={<CustomLeftArrow onClick={() => {}} />}
+                    additionalTransfrom={0}
+                    arrows
+                    autoPlaySpeed={3000}
+                    centerMode={false}
+                    className="home-page-carousel m-auto w-[90%] py-[5%] h-full"
+                    containerClass="home-page-carousel-container"
+                    dotListClass="absolute! bottom-8!"
+                    draggable
+                    focusOnSelect={false}
+                    infinite
+                    itemClass=""
+                    keyBoardControl
+                    minimumTouchDrag={80}
+                    pauseOnHover
+                    renderArrowsWhenDisabled={false}
+                    renderButtonGroupOutside={false}
+                    renderDotsOutside={false}
+                    responsive={{
+                        desktop: {
+                        breakpoint: {
+                            max: 3000,
+                            min: 1024
+                        },
+                        items: 3
+                        },
+                        mobile: {
+                        breakpoint: {
+                            max: 464,
+                            min: 0
+                        },
+                        items: 1
+                        },
+                        tablet: {
+                        breakpoint: {
+                            max: 1024,
+                            min: 464
+                        },
+                        items: 2
+                        }
+                    }}
+                    rewind={false}
+                    rewindWithAnimation={false}
+                    rtl={false}
+                    shouldResetAutoplay
+                    showDots
+                    sliderClass=""
+                    slidesToSlide={1}
+                    swipeable
+                >
+                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                        <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
+                            {"Reel title"}
+                        </span>
+                    </div>
+                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                        <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
+                            {"Reel title"}
+                        </span>
+                    </div>
+                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                        <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
+                            {"Reel title"}
+                        </span>
+                    </div>
+                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                        <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
+                            {"Reel title"}
+                        </span>
+                    </div>
+                </Carousel>
+            </div>
+            <section className="w-full p-10 ">
+                <h1 className="font-bold text-xl mb-8 relative">Our products are loved by</h1>
+                <Carousel
+                    customDot={<CustomTestimonialDot />}
+                    customRightArrow={<CustomTestimonialRightButton onClick={() => {}} />}
+                    customLeftArrow={<CustomTestimonialLefttButton onClick={() => {}} />}
+                    additionalTransfrom={0}
+                    arrows
+                    autoPlaySpeed={3000}
+                    centerMode={false}
+                    className="home-page-carousel rounded-md m-auto w-[70%] h-full"
+                    containerClass="home-page-carousel-container"
+                    dotListClass="testimonial-dot-list"
+                    draggable
+                    focusOnSelect={false}
+                    infinite
+                    itemClass=""
+                    keyBoardControl
+                    minimumTouchDrag={80}
+                    pauseOnHover
+                    renderArrowsWhenDisabled={false}
+                    renderButtonGroupOutside={false}
+                    renderDotsOutside={false}
+                    responsive={{
+                        desktop: {
+                        breakpoint: {
+                            max: 3000,
+                            min: 1024
+                        },
+                        items: 1
+                        },
+                        mobile: {
+                        breakpoint: {
+                            max: 464,
+                            min: 0
+                        },
+                        items: 1
+                        },
+                        tablet: {
+                        breakpoint: {
+                            max: 1024,
+                            min: 464
+                        },
+                        items: 1
+                        }
+                    }}
+                    rewind={false}
+                    rewindWithAnimation={false}
+                    rtl={false}
+                    shouldResetAutoplay
+                    showDots
+                    sliderClass=""
+                    slidesToSlide={1}
+                    swipeable
+                >
+                    <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-yellow-100 h-full">
+                        <CustomVideoPlayer />
+                        {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
+                        <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
+                            <Separator className="my-4 w-[100%] mx-auto"/>
+                            <p>Lorem ipsum</p>
+                            <p className="font-normal text-sm">Lorem ipsum</p>
+                        </div>
+                    </div>
+                    <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
+                        <CustomVideoPlayer />
+                        {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
+                        <div className="bg-yellow-300 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
+                            <Separator className="my-4 w-[100%] mx-auto"/>
+                            <p>Lorem ipsum</p>
+                            <p className="font-normal text-sm">Lorem ipsum</p>
+                        </div>
+                    </div>
+                    <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
+                        <CustomVideoPlayer />
+                        {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
+                        <div className="bg-yellow-300 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
+                            <Separator className="my-4 w-[100%] mx-auto"/>
+                            <p>Lorem ipsum</p>
+                            <p className="font-normal text-sm">Lorem ipsum</p>
+                        </div>
+                    </div>
+                </Carousel>
+            </section>
         </div>
     );
 };
+
+
+const CustomVideoPlayer = () => {
+    return (
+        <ReactPlayer height={"100%"} width={"33%"} style={{
+            // height: "100%",
+            // width: "50px !important",
+            backgroundColor: "#fef9c3",
+            // flex: "0 1 auto",
+            aspectRatio: "1 / 2",
+            borderRadius: "inherit",
+            position: "relative"
+        }} playing url={"/assets/testimonials-1.mkv"} light playIcon={<Button className="absolute bottom-5 w-[80%] backdrop-blur-md rounded-full bg-transparent border border-yellow-500 text-yellow-500">
+            <span className="w-full flex items-center justify-between">Watch testimonial <Triangle className="rotate-90 w-4 aspect-square"/></span>
+            {/* <div className="absolute w-full h-full rounded-[inherit] top-0 bottom-0 left-0 right-0 blur-sm bg-white/50" /> */}
+        </Button>}></ReactPlayer>
+    );
+}

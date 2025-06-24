@@ -36,6 +36,17 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+.testimonial-dot-list {
+  /* background-color: blueviolet; */
+  opacity: 0.5;
+  position: absolute;
+  left: calc(33% + 12px + 5%) !important;
+  bottom: calc(5% + 35px) !important;
+  display: flex;
+  width: fit-content;
+  
+}
+
 /* For Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
