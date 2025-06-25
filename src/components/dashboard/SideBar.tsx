@@ -4,6 +4,7 @@ import { cn } from "../../lib/utils.js";
 import { CircleGauge, LineChart, LoaderCircle, LogOut, Package2, PersonStanding, Presentation, TicketPercent, Truck } from "lucide-react";
 import { Button } from "../ui/button.js";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { optimizeCloudinaryUrl } from "../../utils/utility-functions.js";
 
 
 export const SideBar = () => {
@@ -59,7 +60,7 @@ export const SideBar = () => {
     return (
         <div className="p-4 bg-gray-100 w-[250px] transition-all fixed top-0 bottom-0 left-0">
             <div className="logo object-contain flex justify-center items-center w-full h-[10%]">
-                <img src={"/logo.svg"} className="w-[50px]"/>
+                <img src={optimizeCloudinaryUrl("/logo.svg")} className="w-[50px]"/>
             </div>
             <div className="flex flex-col gap-4 justify-evenly w-full h-[70%]">             
                 <Link to={"home"}>

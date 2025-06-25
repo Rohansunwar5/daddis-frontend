@@ -667,7 +667,7 @@ export const HomePageNavBar = () => {
             </div>
             {/* <Link className="m-auto bg-blue-600 items-end flex-1 sm:flex-none flex justify-end" to={"/"}> */}
             <Link className="" to={"/"}>
-                <img className="h-20" src="../../../public/logo.svg" />
+                <img className="h-20" src="/logo.svg" />
             </Link>
             <div className="justify-between gap-4 items-center flex flex-1">
                 {/* <div className="relative w-[60%] ml-16 hidden lg:block self-end justify-self-end bg-blue-500">

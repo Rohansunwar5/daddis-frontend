@@ -46,6 +46,7 @@ import { FormControl } from "@mui/material";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../../ui/select.tsx";
 import { ColourInput } from "./ColourInput.tsx";
 import { cn } from "../../../lib/utils.ts";
+import { optimizeCloudinaryUrl } from "../../../utils/utility-functions.ts";
 // import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../../ui/select.tsx";
 // import { ProductsOrderedTable } from "../deliveryMain/ProductsOrderedTable.tsx";
 // import { BannerColourPallete } from "./BannerColourPallete.tsx";
@@ -139,7 +140,7 @@ export const columns: ColumnDef<ISampleBanners>[] = [
             onCheckedChange={(value) => row.toggleSelected(!!value)}
             aria-label="Select row"
             /> */}
-            <img src={url} className="h-10 w-10 object-cover object-center rounded-md" />
+            <img src={optimizeCloudinaryUrl(url)} className="h-10 w-10 object-cover object-center rounded-md" />
         </div>
     },
     enableSorting: false,

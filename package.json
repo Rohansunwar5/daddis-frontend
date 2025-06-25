@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.2.9",
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.21.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@gsap/react": "^2.1.1",
@@ -38,6 +40,7 @@
     "@tanstack/react-table": "^8.19.2",
     "@types/react-transition-group": "^4.4.10",
     "class-variance-authority": "^0.7.0",
+    "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",

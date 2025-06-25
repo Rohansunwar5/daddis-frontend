@@ -20,6 +20,7 @@ import { ICartItem } from "../../../utils/constants";
 import { setCustomerData } from "../../../redux/slices/websiteSlice";
 import { toast } from "sonner";
 import { ToastSuccess } from "../productMain/AllProductsTable";
+import { optimizeCloudinaryUrl } from "../../../utils/utility-functions";
 
 export const loginFormSchema = z.object({
     email: z.string().email("Invalid email, enter a valid email address!"),
@@ -204,7 +205,7 @@ export const AuthenticationComponent = ({ type } : { type: string }) => {
     return (
         <div className={cn(`w-full font-[quicksand] flex justify-center items-center`, (type === "dashboard") && "h-screen")}>
             <div className="rounded-lg gap-4 flex flex-col justify-center items-center shadow-lg bg-gray-100 text-center w-[400px] p-[5%]">
-                <img src={"/logo.svg"} className="w-[80px]"/>
+                <img src={optimizeCloudinaryUrl("/logo.svg")} className="w-[80px]"/>
                 <h1>Continue with google!</h1>
                 <div className="w-full" >
                     <GoogleLogin shape="circle" onSuccess={ async (credintialResponse) => {

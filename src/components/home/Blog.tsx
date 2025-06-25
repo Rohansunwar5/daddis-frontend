@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { ToastFaliure } from "../dashboard/productMain/AllProductsTable";
 import { ISampleBlogs } from "../../utils/constants";
 import { useNavigate} from "react-router-dom";
+import { optimizeCloudinaryUrl } from "../../utils/utility-functions";
 
 const getBlogs = async () => {
     try {
@@ -39,7 +40,7 @@ const Blog = ({ blog } : { blog : ISampleBlogs }) => {
         <div className="w-[300px] bg-black/5 flex flex-col h-[450px] rounded-lg">
             <p className="px-[2%] py-[5%] text-center m-auto flex items-center">{blog.title}</p>
             <span id="blog-content" className="bg-black/30 relative flex-1 rounded-[inherit] rounded-t-none">
-                <img src={blog?.blogImgUrl?.url} className="h-full object-cover rounded-[inherit] w-full" />
+                <img src={optimizeCloudinaryUrl(blog?.blogImgUrl?.url)} className="h-full object-cover rounded-[inherit] w-full" />
                 <span className="absolute px-2 bg-black/60 text-white py-2 w-full bottom-0 rounded-b-[inherit] ">
                     {/* <p className="font-thin text-white/50">
                         {parse(blog?.blogContent?.markup)}

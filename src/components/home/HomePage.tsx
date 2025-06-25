@@ -13,6 +13,7 @@ import Carousel, { ArrowProps, DotProps }  from 'react-multi-carousel';
 // import { setHeroBanners } from "../../redux/slices/websiteSlice";
 import 'react-multi-carousel/lib/styles.css';
 import { Separator } from "../ui/separator";
+import { optimizeCloudinaryUrl } from "../../utils/utility-functions";
 
 export const HomePage = () => {
 
@@ -72,35 +73,35 @@ export const HomePage = () => {
         setTopProducts(topProductsFromStore);
     }, [heroBannersFromStore, categoriesFromStore]);
 
-const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
-        const {
-            // carouselState: { currentSlide },
-        } = rest;
-        return (
-            <Button variant={"ghost"}
-                onClick={onClick}
-                className="absolute left-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
-                aria-label="Previous"
-            >
-                <Triangle className="w-4 aspect-square -rotate-90" />
-            </Button>
-        );
-    };
+    // const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
+    //     const {
+    //         // carouselState: { currentSlide },
+    //     } = rest;
+    //     return (
+    //         <Button variant={"ghost"}
+    //             onClick={onClick}
+    //             className="absolute left-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+    //             aria-label="Previous"
+    //         >
+    //             <Triangle className="w-4 aspect-square -rotate-90" />
+    //         </Button>
+    //     );
+    // };
 
-    const CustomRightArrow = ({ onClick, ...rest }: ArrowProps) => {
-        const {
-            // carouselState: { currentSlide },
-        } = rest;
-        return (
-            <Button variant={"ghost"}
-                onClick={onClick}
-                className="absolute right-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
-                aria-label="Next"
-            >
-                <Triangle className="w-4 aspect-square rotate-90" />
-            </Button>
-        );
-    };
+    // const CustomRightArrow = ({ onClick, ...rest }: ArrowProps) => {
+    //     const {
+    //         // carouselState: { currentSlide },
+    //     } = rest;
+    //     return (
+    //         <Button variant={"ghost"}
+    //             onClick={onClick}
+    //             className="absolute right-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+    //             aria-label="Next"
+    //         >
+    //             <Triangle className="w-4 aspect-square rotate-90" />
+    //         </Button>
+    //     );
+    // };
 
     const CustomTestimonialRightButton = ({ onClick, ...rest }: ArrowProps) => {
         const {
@@ -134,12 +135,12 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
 
     
 
-    const CustomDot = ({ onClick, active }: DotProps) => (
-        <button
-          onClick={onClick}
-          className={`w-3 self-center justify-self-center h-3 rounded-full mx-1 border-2 border-yellow-600 ${active ? 'bg-yellow-500' : 'bg-transparent'}`}
-        />
-    );
+    // const CustomDot = ({ onClick, active }: DotProps) => (
+    //     <button
+    //       onClick={onClick}
+    //       className={`w-3 self-center justify-self-center h-3 rounded-full mx-1 border-2 border-yellow-600 ${active ? 'bg-yellow-500' : 'bg-transparent'}`}
+    //     />
+    // );
 
     const CustomTestimonialDot = ({ onClick, active }: DotProps) => (
         <button
@@ -158,7 +159,7 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
             {/* <div id="hero-section" className="p-0 m-0 bg-green-300 w-full h-[calc(100vh-56px)]"> */}
             <HomePageHeroCarousel bannerHeros={bannerHeros} />
             <div className="p-10 our-products-section">
-                <h1 className="font-bold text-xl flex justify-between items-center">Our products<Link to={"/category/all"}><Button variant={"ghost"} className="underline">View all</Button></Link></h1>
+                <h1 className="font-bold relative text-center text-xl">Our products<Link className="absolute right-0" to={"/category/all"}><Button variant={"ghost"} className="underline">View all</Button></Link></h1>
                 <div className="mt-8 grid w-full sm:grid-cols-3 grid-cols-1 justify-items-center gap-5 h-full">
                     {categories.length === 0 ? [0, 1, 2].map(number => {
                         return (
@@ -171,7 +172,7 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
                         return (
                             <div key={category.categoryName} className="w-[100%] col-span-1">
                                 <Link to={`/category/${category._id}`} className="hover:cursor-pointer hover:scale-110 transition-all duration-150 flex justify-center gap-2 flex-col">
-                                    <img src={category?.banners[0]?.imageUrl?.url} className="rounded-md w-[100%] object-cover object-top sm:aspect-video h-[40%] " />
+                                    <img src={optimizeCloudinaryUrl(category?.banners[0]?.imageUrl?.url)} className="rounded-md w-[100%] object-cover object-top sm:aspect-video h-[40%] " />
                                     <h3 className="font-bold">
                                         {category.categoryName}
                                     </h3>
@@ -182,11 +183,11 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
                 </div>
             </div>
             <div id="best-sellers-section" className="font-[quicksand] p-10 flex gap-4 flex-col w-full">
-                <p className="text-xl font-bold mb-8">Best sellers</p>
+                <p className="text-xl font-bold text-center mb-8">Best sellers</p>
                 <div className="grid sm:min-h-[calc(100vh-56px-25px)] min-h-[100vw] sm:grid-rows-2 grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="row-span-2 col-span-1 rounded-lg flex flex-col justify-between relative">
                         <Button variant={"ghost"} className="p-0 m-0 hover:scale-125 absolute top-3 right-3 transition-all duration-150 w-10 h-10 rounded-full"><LucideHeart className="hover:stroke-red-500 stroke-1"/></Button>
-                        <img className="h-[90%] object-cover rounded-md" src={topProducts[0]?.imageUrl[0].url} alt="" />
+                        <img className="h-[90%] object-cover rounded-md" src={optimizeCloudinaryUrl(topProducts[0]?.imageUrl[0].url)} alt="" />
                         <span>
                             {topProducts[0]?.productName}
                         </span>
@@ -226,7 +227,7 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
                 </div>
             </div>
             <div className="p-10 w-full h-full best-sellers-section">
-                <h1 className="font-bold text-xl mb-8">Our partners</h1>
+                <h1 className="font-bold flex justify-center items-center text-xl mb-8">Our partners</h1>
                 {/* <div ref={marqueeInnerRef} className="flex justify-evenly animate-marquee items-center sm:gap-4 gap-2 mt-4 w-full overflow-x-hidden"> */}
                 <Marquee className="flex justify-evenly items-center sm:gap-4 gap-2 w-full" autoFill speed={100}>
                     {partnerBannersFromStore ? partnerBannersFromStore?.map((banner: any) => {
@@ -239,8 +240,8 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
                 </Marquee>
             </div>
             <div className="w-full p-10 home-page-carousel-container">
-                <h1 className="font-bold text-xl mb-8 relative">From the gram</h1>
-                <Carousel
+                <h1 className="font-bold text-xl mb-8 flex justify-center items-center relative">From the gram</h1>
+                {/* <Carousel
                     customDot={<CustomDot />}
                     customRightArrow={<CustomRightArrow onClick={() => {}} />}
                     customLeftArrow={<CustomLeftArrow onClick={() => {}} />}
@@ -292,35 +293,31 @@ const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
                     sliderClass=""
                     slidesToSlide={1}
                     swipeable
-                >
-                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                > */}
+                <div className="flex gap-4 bg-red-300 w-[60%] m-auto">
+                    <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
                         <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
                             {"Reel title"}
                         </span>
                     </div>
-                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                    <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
                         <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
                             {"Reel title"}
                         </span>
                     </div>
-                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                    <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
                         <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
                             {"Reel title"}
                         </span>
                     </div>
-                    <div className="w-1/2 my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
-                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
-                        <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
-                            {"Reel title"}
-                        </span>
-                    </div>
-                </Carousel>
+                </div>
+                {/* </Carousel> */}
             </div>
             <section className="w-full p-10 ">
-                <h1 className="font-bold text-xl mb-8 relative">Our products are loved by</h1>
+                <h1 className="font-bold flex justify-center items-center text-xl mb-8 relative">Our products are loved by</h1>
                 <Carousel
                     customDot={<CustomTestimonialDot />}
                     customRightArrow={<CustomTestimonialRightButton onClick={() => {}} />}

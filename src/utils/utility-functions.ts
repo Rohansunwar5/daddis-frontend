@@ -153,3 +153,23 @@ export const clearCart = async ( dispatch: Dispatch<UnknownAction>, isUserPresen
         return false;
     }
 };
+
+export function optimizeCloudinaryUrl(
+  url: string,
+) {
+
+  if (!url?.includes("res.cloudinary.com")) return url;
+
+  const [prefix, suffix] = url.split("/upload/");
+  const transformations = [
+    "f_auto",
+    "q_auto",
+    // width ? `w_${width}` : null,
+    // height ? `h_${height}` : null,
+    // "c_fill"
+  ]
+    .filter(Boolean)
+    .join(",");
+
+  return `${prefix}/upload/${transformations}/${suffix}`;
+}

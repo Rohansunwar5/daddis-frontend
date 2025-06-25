@@ -3,6 +3,7 @@ import { cn } from "../../lib/utils";
 import { ISampleBanners } from "../../utils/constants";
 import gsap from "gsap";
 import { LoaderCircleIcon } from "lucide-react";
+import { optimizeCloudinaryUrl } from "../../utils/utility-functions";
 
 export const HomePageHeroCarousel = ({ bannerHeros } : { bannerHeros: Array<ISampleBanners> }) => {
 
@@ -445,7 +446,7 @@ export const HomePageHeroCarousel = ({ bannerHeros } : { bannerHeros: Array<ISam
           <div className="relative w-full h-full">
             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
               // @ts-ignore
-              return <img src={bannerHeros[0].bannerElementUrl?.url} ref={(el) => (bannerElementsRef.current[index] = el)} key={index} className="hero-section-animation-elements sm:w-[250px] w-[70px] absolute aspect-square z-10 mix-blend-multiply object-contain" />
+              return <img src={optimizeCloudinaryUrl(bannerHeros[0].bannerElementUrl?.url)} ref={(el) => (bannerElementsRef.current[index] = el)} key={index} className="hero-section-animation-elements sm:w-[250px] w-[70px] absolute aspect-square z-10 mix-blend-multiply object-contain" />
             })}
           </div>
       </div>
@@ -453,7 +454,7 @@ export const HomePageHeroCarousel = ({ bannerHeros } : { bannerHeros: Array<ISam
         {bannerHeros.map((banner, index) => {
             return (
                 <>
-                  <img src={banner.imageUrl.url} ref={(el) => {
+                  <img src={optimizeCloudinaryUrl(banner.imageUrl.url)} ref={(el) => {
                       // @ts-ignore
                       return (itemRefs.current[index] = el)
                     }} className={cn(`hero-section-animation-elements sm:h-[90%] sm:-right-[25%] -right-[40%] -rotate-90 scale-[0.4] sm:w-[auto] w-[70%] z-[50] absolute object-contain`)} />
