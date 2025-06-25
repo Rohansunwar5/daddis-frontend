@@ -294,7 +294,7 @@ export const HomePage = () => {
                     slidesToSlide={1}
                     swipeable
                 > */}
-                <div className="flex gap-4 bg-red-300 w-[60%] m-auto">
+                <div className="flex gap-4 w-[60%] m-auto">
                     <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
                         <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
