@@ -136,8 +136,8 @@ export const App = () => {
         (function () {
           dispatch(setTopProducts([
             {
-              productName: "Gogeta super saiyan 4 poster",
-              imageUrl: [{ url: "https://pbs.twimg.com/media/GSGpOAEXQAAU_eK?format=jpg&name=4096x4096"}],
+              productName: "Chatpata Khakhra",
+              imageUrl: [{ url: "https://res.cloudinary.com/dmrgscauc/image/upload/v1755773322/ChatpataKhakhra_jwfz6h.png"}],
               price: 195,
               weight: {
                 number: 200,
@@ -145,8 +145,8 @@ export const App = () => {
               },
             },
             {
-              productName: "Vegito blue poster",
-              imageUrl: [{ url: "https://4kwallpapers.com/images/walls/thumbs_3t/17072.jpeg"}],
+              productName: "Kaju Modak",
+              imageUrl: [{ url: "https://res.cloudinary.com/dmrgscauc/image/upload/v1755772749/KajuModak_sbjd83.jpg"}],
               price: 80,
               weight: {
                 number: 180,
@@ -154,8 +154,8 @@ export const App = () => {
               },
             },
             {
-              productName: "UI Goku poster",
-              imageUrl: [{ url: "https://wallpapercave.com/wp/wp2437261.jpg"}],
+              productName: "Doodh Peda",
+              imageUrl: [{ url: "https://res.cloudinary.com/dmrgscauc/image/upload/v1755772749/DoodhPeda_dt78sq.jpg"}],
               price: 85,
               weight: {
                 number: 180,

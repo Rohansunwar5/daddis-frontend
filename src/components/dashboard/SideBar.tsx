@@ -75,7 +75,7 @@ export const SideBar = () => {
                         </span>
                     </button>
                 </Link>
-                <Link to={"category/all"}>
+                <Link to={"Products"}>
                     <button onClick={() => setDashboardOption(DashboardOptions.Products)} className={cn("hover:bg-gray-200 pl-4 transition-colors duration-150 items-center h-14 flex w-full rounded-xl", dashboardOption == DashboardOptions.Products && "bg-yellow-300 hover:bg-yellow-300 text-white")}>
                         <Package2 />
                         {/* {dashboardOption === DashboardOptions.Dashboard ? <RiDashboard3Fill className="text-2xl" /> : <RiDashboard3Line className="text-2xl" />} */}

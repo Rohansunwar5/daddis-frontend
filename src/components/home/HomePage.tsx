@@ -185,9 +185,9 @@ export const HomePage = () => {
             <div id="best-sellers-section" className="font-[quicksand] p-10 flex gap-4 flex-col w-full">
                 <p className="text-xl font-bold text-center mb-8">Best sellers</p>
                 <div className="grid sm:min-h-[calc(100vh-56px-25px)] min-h-[100vw] sm:grid-rows-2 grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="row-span-2 col-span-1 rounded-lg flex flex-col justify-between relative">
+                    <div className="row-span-1 rounded-lg flex flex-col justify-between relative">
                         <Button variant={"ghost"} className="p-0 m-0 hover:scale-125 absolute top-3 right-3 transition-all duration-150 w-10 h-10 rounded-full"><LucideHeart className="hover:stroke-red-500 stroke-1"/></Button>
-                        <img className="h-[90%] object-cover rounded-md" src={optimizeCloudinaryUrl(topProducts[0]?.imageUrl[0].url)} alt="" />
+                        <img className="h-[75%] object-cover rounded-md" src={optimizeCloudinaryUrl(topProducts[0]?.imageUrl[0].url)} alt="" />
                         <span>
                             {topProducts[0]?.productName}
                         </span>
