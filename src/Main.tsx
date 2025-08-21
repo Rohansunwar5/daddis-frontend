@@ -54,7 +54,7 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/">
             <Route path="admin">
-                {/* <Route path="" ></Route> */}
+                <Route path="" ></Route>
                 <Route path="auth" element={<AuthenticationComponent type={"dashboard"} />} ></Route>
                 <Route path="dashboard" element={<DashboardHome />}>
                     <Route path="home" element={<DashboardFront />}></Route>
