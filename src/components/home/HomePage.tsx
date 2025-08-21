@@ -14,6 +14,7 @@ import Carousel, { ArrowProps, DotProps }  from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Separator } from "../ui/separator";
 import { optimizeCloudinaryUrl } from "../../utils/utility-functions";
+import { ContainerScroll } from "../../Animation/container-scroll-animation";
 
 export const HomePage = () => {
 
@@ -184,10 +185,10 @@ export const HomePage = () => {
             </div>
             <div id="best-sellers-section" className="font-[quicksand] p-10 flex gap-4 flex-col w-full">
                 <p className="text-xl font-bold text-center mb-8">Best sellers</p>
-                <div className="grid sm:min-h-[calc(100vh-56px-25px)] min-h-[100vw] sm:grid-rows-2 grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="row-span-1 rounded-lg flex flex-col justify-between relative">
+                <div className="grid grid-cols-3 gap-4">
+                    <div className="row-span-1 rounded-lg flex flex-col justify-center relative">
                         <Button variant={"ghost"} className="p-0 m-0 hover:scale-125 absolute top-3 right-3 transition-all duration-150 w-10 h-10 rounded-full"><LucideHeart className="hover:stroke-red-500 stroke-1"/></Button>
-                        <img className="h-[75%] object-cover rounded-md" src={optimizeCloudinaryUrl(topProducts[0]?.imageUrl[0].url)} alt="" />
+                        <img className="h-[75%] object-cover rounded-md mb-3" src={optimizeCloudinaryUrl(topProducts[0]?.imageUrl[0].url)} alt="" />
                         <span>
                             {topProducts[0]?.productName}
                         </span>
@@ -198,9 +199,9 @@ export const HomePage = () => {
                             ₹ {topProducts[0]?.price}
                         </span>
                     </div>
-                    <div className="row-span-1 col-span-1 rounded-lg flex flex-col justify-between relative">
+                    <div className="row-span-1 col-span-1 rounded-lg flex flex-col justify-center relative">
                         <Button variant={"ghost"} className="p-0 m-0 hover:scale-125 absolute top-3 right-3 transition-all duration-150 w-10 h-10 rounded-full"><LucideHeart className="hover:stroke-red-500 stroke-1"/></Button>
-                        <img className="h-[75%] object-cover rounded-md" src={topProducts[1]?.imageUrl[0].url} alt="" />
+                        <img className="h-[75%] object-cover rounded-md mb-3" src={topProducts[1]?.imageUrl[0].url} alt="" />
                         <span>
                             {topProducts[1]?.productName}
                         </span>
@@ -211,9 +212,9 @@ export const HomePage = () => {
                             ₹ {topProducts[1]?.price}
                         </span>
                     </div>
-                    <div className="row-span-1 col-span-1 rounded-lg flex flex-col justify-between relative">
+                    <div className="row-span-1 col-span-1 rounded-lg flex flex-col justify-center relative">
                         <Button variant={"ghost"} className="p-0 m-0 hover:scale-125 absolute top-3 right-3 transition-all duration-150 w-10 h-10 rounded-full"><LucideHeart className="hover:stroke-red-500 stroke-1"/></Button>
-                        <img className="h-[75%] object-cover rounded-md" src={topProducts[2]?.imageUrl[0].url} alt="" />
+                        <img className="h-[75%] object-cover rounded-md mb-3" src={topProducts[2]?.imageUrl[0].url} alt="" />
                         <span>
                             {topProducts[2]?.productName}
                         </span>
@@ -295,20 +296,20 @@ export const HomePage = () => {
                     swipeable
                 > */}
                 <div className="flex gap-4 w-[60%] m-auto">
-                    <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
-                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                    <div className="w-[277px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video src={"https://res.cloudinary.com/dmrgscauc/video/upload/v1755776761/TUKTUK_ADS_Demo_y2kl5b.mp4"} controls autoPlay loop muted className="bg-white-100 w-[275px] h-[395px] object-inherit rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
                             {"Reel title"}
                         </span>
                     </div>
-                    <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
-                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                    <div className="w-[277px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video src={"https://res.cloudinary.com/dmrgscauc/video/upload/v1755776761/TUKTUK_ADS_Demo_y2kl5b.mp4"} controls autoPlay loop muted className="bg-white-100 w-[275px] h-[395px] object-inherit rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
                             {"Reel title"}
                         </span>
                     </div>
-                    <div className="w-[350px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
-                        <video className="bg-yellow-100 w-full h-full rounded-[inherit]" />
+                    <div className="w-[277px] my-auto relative m-auto aspect-[9/16] rounded-md bg-white border border-gray-600/50 h-full">
+                        <video src={"https://res.cloudinary.com/dmrgscauc/video/upload/v1755776761/TUKTUK_ADS_Demo_y2kl5b.mp4"} controls autoPlay loop muted className="bg-white-100 w-[275px] h-[395px] object-inherit rounded-[inherit]" />
                         <span className="font-bold flex justify-center items-center absolute bottom-0 left-0 right-0 h-[20%] bg-white rounded-[inherit] rounded-t-none">
                             {"Reel title"}
                         </span>
@@ -316,8 +317,27 @@ export const HomePage = () => {
                 </div>
                 {/* </Carousel> */}
             </div>
-            <section className="w-full p-10 ">
-                <h1 className="font-bold flex justify-center items-center text-xl mb-8 relative">Our products are loved by</h1>
+            <section className="w-full p-10 px-0">
+                <div className="flex flex-col overflow-hidden">
+                  <ContainerScroll
+                     titleComponent={
+                     <h1 className="font-bold text-center text-4xl md:text-6xl lg:text-7xl mb-8">
+                       Our products are loved by
+                    </h1>
+                    }
+                >
+                    {/* 👇 children (optional image or content) */}
+                   <img
+                     src="/linear.webp"
+                     alt="hero"
+                     height={720}
+                     width={1400}
+                     className="mx-auto rounded-2xl object-cover h-full object-left-top"
+                     draggable={false}
+                   />
+                  </ContainerScroll>
+                </div>
+                {/*<h1 className="font-bold flex justify-center items-center text-xl mb-8 relative">Our products are loved by</h1>*/}
                 <Carousel
                     customDot={<CustomTestimonialDot />}
                     customRightArrow={<CustomTestimonialRightButton onClick={() => {}} />}

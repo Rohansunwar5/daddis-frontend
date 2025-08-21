@@ -136,8 +136,8 @@ export const App = () => {
         (function () {
           dispatch(setTopProducts([
             {
-              productName: "Chatpata Khakhra",
-              imageUrl: [{ url: "https://res.cloudinary.com/dmrgscauc/image/upload/v1755773322/ChatpataKhakhra_jwfz6h.png"}],
+              productName: "Moti Choor Ghee Ladoo",
+              imageUrl: [{ url: "https://res.cloudinary.com/dmrgscauc/image/upload/v1755775903/MotiChoor_wz8rdk.jpg"}],
               price: 195,
               weight: {
                 number: 200,
