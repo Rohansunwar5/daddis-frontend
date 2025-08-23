@@ -1,155 +1,63 @@
+//HomePage.tsx
 import { useEffect, useState } from "react";
 import { ICategory, IProduct } from "../../utils/constants";
-import { Link } from "react-router-dom";
-// import { any } from "zod";
-import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
+import { Button } from "../ui/button";
 import { HomePageHeroCarousel } from "./HomePageHeroCarousel";
 import Marquee from "react-fast-marquee";
-import { LucideHeart, MoveRight, Triangle } from "lucide-react";
-import ReactPlayer from 'react-player/lazy';
-import { Skeleton } from "@mui/material";
-import Carousel, { ArrowProps, DotProps }  from 'react-multi-carousel';
-// import { setHeroBanners } from "../../redux/slices/websiteSlice";
-import 'react-multi-carousel/lib/styles.css';
-import { Separator } from "../ui/separator";
-import { optimizeCloudinaryUrl } from "../../utils/utility-functions";
+import { MoveRight, Triangle } from "lucide-react";
+import ReactPlayer from "react-player/lazy";
+import Carousel, { ArrowProps, DotProps } from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { ContainerScroll } from "../../Animation/container-scroll-animation";
-import CircularGallery from "../../Animation/CircularGallery";
 
 export const HomePage = () => {
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [topProducts, setTopProducts] = useState<IProduct[]>([]);
+  const heroBannersFromStore = useSelector((state: any) => state.website.heroBanners);
+  const categoriesFromStore = useSelector((state: any) => state.website.categories);
+  const partnerBannersFromStore = useSelector((state: any) => state.website.partnerBanners);
+  const topProductsFromStore = useSelector((state: any) => state.website.topProducts);
 
-    const [ categories, setCategories ] = useState<ICategory[]>([]);
-    // const [ partnerBanners, setBannerPartners ] = useState([]);
-    const [ topProducts, setTopProducts ] = useState<Array<IProduct>>([]);
-    const heroBannersFromStore = useSelector((state: any) => state.website.heroBanners);
-    const categoriesFromStore = useSelector((state : any) => state.website.categories);
-    const partnerBannersFromStore = useSelector((state : any) => state.website.partnerBanners);
-    // const partnerBannersFromStore = undefined;
-    const topProductsFromStore = useSelector((state: any) => state.website.topProducts);
+  const [bannerHeros, setBannerHeros] = useState<any[]>([]);
 
-    const [ bannerHeros, setBannerHeros ] = useState([]);
-    // const bannerHeros: ISampleBanners[] = [
-    //     {
-    //         bannerName: "Namak para",
-    //         imageUrl: "/assets/hero/1.png",
-    //         bannerType: "hero-section-banner",
-    //         bannerText: "Namak para",
-    //         bannerColours: ["#FF885B", "#B7E0FF"],
-    //         bannerElementUrl: "/assets/hero/2.png",
-    //     },
-    //     {
-    //         bannerName: "Shakkar-para",
-    //         imageUrl: "/assets/hero/3.png",
-    //         bannerType: "hero-section-banner",
-    //         bannerText: "Shakkar Para",
-    //         bannerColours: ["#C68FE6", "#B7E0FF"],
-    //         bannerElementUrl: "/assets/hero/4.png",
-    //     },
-    //     {
-    //         bannerName: "peri-peri-khakhra",
-    //         imageUrl: "/assets/hero/5.png",
-    //         bannerType: "hero-section-banner",
-    //         bannerText: "Peri Peri Khakhra",
-    //         bannerColours: ["#8967B3", "white"],
-    //         bannerElementUrl: "/assets/hero/6.png",
-    //     },
-    //     {
-    //         bannerName: "Kaju-katli",
-    //         imageUrl: "/assets/hero/7.png",
-    //         bannerType: "hero-section-banner",
-    //         bannerText: "Kaju Katli",
-    //         bannerColours: ["#16325B", "white"],
-    //         bannerElementUrl: "/assets/hero/8.png",
-    //     },
-    // ];
+  useEffect(() => {
+    setBannerHeros(heroBannersFromStore);
+    setCategories(categoriesFromStore);
+    setTopProducts(topProductsFromStore);
+  }, [heroBannersFromStore, categoriesFromStore, topProductsFromStore]);
 
-    
-    useEffect(() => {        
-        // console.log(categoriesFromStore);
-        // console.log(partnerBannersFromStore);
-        setBannerHeros(heroBannersFromStore);
-        setCategories(categoriesFromStore);
-        // setCategories([]);
-        // setBannerPartners(partnerBannersFromStore);
-        setTopProducts(topProductsFromStore);
-    }, [heroBannersFromStore, categoriesFromStore]);
+  // Custom Carousel Arrows + Dots
+  const CustomTestimonialRightButton = ({ onClick }: ArrowProps) => (
+    <Button
+      variant="ghost"
+      onClick={onClick}
+      className="absolute border border-yellow-500 right-[5%] bottom-[5%] text-yellow-500 hover:border-yellow-500 hover:bg-yellow-100/50 hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+      aria-label="Next"
+    >
+      <MoveRight className="w-4 aspect-square" />
+    </Button>
+  );
 
-    // const CustomLeftArrow = ({ onClick, ...rest }: ArrowProps) => {
-    //     const {
-    //         // carouselState: { currentSlide },
-    //     } = rest;
-    //     return (
-    //         <Button variant={"ghost"}
-    //             onClick={onClick}
-    //             className="absolute left-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
-    //             aria-label="Previous"
-    //         >
-    //             <Triangle className="w-4 aspect-square -rotate-90" />
-    //         </Button>
-    //     );
-    // };
+  const CustomTestimonialLefttButton = ({ onClick }: ArrowProps) => (
+    <Button
+      variant="ghost"
+      onClick={onClick}
+      className="absolute border border-yellow-500 right-[12%] bottom-[5%] text-yellow-500 hover:border-yellow-500 hover:bg-yellow-100/50 hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
+      aria-label="Previous"
+    >
+      <MoveRight className="w-4 aspect-square -rotate-180" />
+    </Button>
+  );
 
-    // const CustomRightArrow = ({ onClick, ...rest }: ArrowProps) => {
-    //     const {
-    //         // carouselState: { currentSlide },
-    //     } = rest;
-    //     return (
-    //         <Button variant={"ghost"}
-    //             onClick={onClick}
-    //             className="absolute right-2 top-1/2 text-yellow-500 hover:bg-transparent hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
-    //             aria-label="Next"
-    //         >
-    //             <Triangle className="w-4 aspect-square rotate-90" />
-    //         </Button>
-    //     );
-    // };
-
-    const CustomTestimonialRightButton = ({ onClick, ...rest }: ArrowProps) => {
-        const {
-            // carouselState: { currentSlide },
-        } = rest;
-        return (
-            <Button variant={"ghost"}
-                onClick={onClick}
-                className="absolute border border-yellow-500 right-[5%] bottom-[5%] text-yellow-500 hover:border-yellow-500 hover:bg-yellow-100/50 hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
-                aria-label="Next"
-            >
-                <MoveRight className="w-4 aspect-square" />
-            </Button>
-        );
-    };
-
-    const CustomTestimonialLefttButton = ({ onClick, ...rest }: ArrowProps) => {
-        const {
-            // carouselState: { currentSlide },
-        } = rest;
-        return (
-            <Button variant={"ghost"}
-                onClick={onClick}
-                className="absolute border border-yellow-500 right-[12%] bottom-[5%] text-yellow-500 hover:border-yellow-500 hover:bg-yellow-100/50 hover:text-yellow-500 -translate-y-1/2 z-10 flex justify-center items-center rounded-full"
-                aria-label="Next"
-            >
-                <MoveRight className="w-4 aspect-square -rotate-180" />
-            </Button>
-        );
-    };
-
-    
-
-    // const CustomDot = ({ onClick, active }: DotProps) => (
-    //     <button
-    //       onClick={onClick}
-    //       className={`w-3 self-center justify-self-center h-3 rounded-full mx-1 border-2 border-yellow-600 ${active ? 'bg-yellow-500' : 'bg-transparent'}`}
-    //     />
-    // );
-
-    const CustomTestimonialDot = ({ onClick, active }: DotProps) => (
-        <button
-          onClick={onClick}
-          className={`w-3 self-center justify-self-center h-3 rounded-full mx-1 border-2 border-yellow-600 ${active ? 'bg-yellow-500' : 'bg-transparent'}`}
-        />
-    );
+  const CustomTestimonialDot = ({ onClick, active }: DotProps) => (
+    <button
+      onClick={onClick}
+      className={`w-3 h-3 rounded-full mx-1 border-2 border-yellow-600 ${
+        active ? "bg-yellow-500" : "bg-transparent"
+      }`}
+    />
+  );
 
     return (
         <div className="mt-[56px] font-[quicksand]">
@@ -338,136 +246,118 @@ export const HomePage = () => {
                    />
                   </ContainerScroll>
                 </div>
-                 <div className="w-full p-10 relative z-[50]">
-                   <CircularGallery/>
-                    <Carousel
-                        customDot={<CustomTestimonialDot />}
-                        customRightArrow={<CustomTestimonialRightButton onClick={() => {}} />}
-                        customLeftArrow={<CustomTestimonialLefttButton onClick={() => {}} />}
-                        additionalTransfrom={0}
-                        arrows
-                        autoPlaySpeed={3000}
-                        centerMode={false}
-                        className="home-page-carousel rounded-md m-auto w-[70%] h-full"
-                        containerClass="home-page-carousel-container"
-                        dotListClass="testimonial-dot-list"
-                        draggable
-                        focusOnSelect={false}
-                        infinite
-                        itemClass=""
-                        keyBoardControl
-                        minimumTouchDrag={80}
-                        pauseOnHover
-                        renderArrowsWhenDisabled={false}
-                        renderButtonGroupOutside={false}
-                        renderDotsOutside={false}
-                        responsive={{
-                            desktop: {
-                            breakpoint: {
-                                max: 3000,
-                                min: 1024
-                            },
-                            items: 1
-                            },
-                            mobile: {
-                            breakpoint: {
-                                max: 464,
-                                min: 0
-                            },
-                            items: 1
-                            },
-                            tablet: {
-                            breakpoint: {
-                                max: 1024,
-                                min: 464
-                            },
-                            items: 1
-                            }
-                        }}
-                        rewind={false}
-                        rewindWithAnimation={false}
-                        rtl={false}
-                        shouldResetAutoplay
-                        showDots
-                        sliderClass=""
-                        slidesToSlide={1}
-                        swipeable
-                    >
-                        <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-yellow-100 h-full">
-                            <CustomVideoPlayer />
-                            {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
-                            <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
-                                <Separator className="my-4 w-[100%] mx-auto"/>
-                                <p>Lorem ipsum</p>
-                                <p className="font-normal text-sm">Lorem ipsum</p>
-                            </div>
-                        </div>
-                        <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
-                            <CustomVideoPlayer />
-                            {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
-                            <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
-                                <Separator className="my-4 w-[100%] mx-auto"/>
-                                <p>Lorem ipsum</p>
-                                <p className="font-normal text-sm">Lorem ipsum</p>
-                            </div>
-                        </div>
-                        <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
-                            <CustomVideoPlayer />
-                            {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
-                            <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
-                                <Separator className="my-4 w-[100%] mx-auto"/>
-                                <p>Lorem ipsum</p>
-                                <p className="font-normal text-sm">Lorem ipsum</p>
-                            </div>
-                        </div>
-                        <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
-                            <CustomVideoPlayer />
-                            {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
-                            <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
-                                <Separator className="my-4 w-[100%] mx-auto"/>
-                                <p>Lorem ipsum</p>
-                                <p className="font-normal text-sm">Lorem ipsum</p>
-                            </div>
-                        </div>
-                        <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
-                            <CustomVideoPlayer />
-                            {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
-                            <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
-                                <Separator className="my-4 w-[100%] mx-auto"/>
-                                <p>Lorem ipsum</p>
-                                <p className="font-normal text-sm">Lorem ipsum</p>
-                            </div>
-                        </div>
-                    </Carousel>
-                    
-                </div>
                 {/*<h1 className="font-bold flex justify-center items-center text-xl mb-8 relative">Our products are loved by</h1>*/}
-                {/*<div className="w-full p-10 relative z-[50]">
-                </div>*/}
+                <Carousel
+                    customDot={<CustomTestimonialDot />}
+                    customRightArrow={<CustomTestimonialRightButton onClick={() => {}} />}
+                    customLeftArrow={<CustomTestimonialLefttButton onClick={() => {}} />}
+                    additionalTransfrom={0}
+                    arrows
+                    autoPlaySpeed={3000}
+                    centerMode={false}
+                    className="home-page-carousel rounded-md m-auto w-[70%] h-full"
+                    containerClass="home-page-carousel-container"
+                    dotListClass="testimonial-dot-list"
+                    draggable
+                    focusOnSelect={false}
+                    infinite
+                    itemClass=""
+                    keyBoardControl
+                    minimumTouchDrag={80}
+                    pauseOnHover
+                    renderArrowsWhenDisabled={false}
+                    renderButtonGroupOutside={false}
+                    renderDotsOutside={false}
+                    responsive={{
+                        desktop: {
+                        breakpoint: {
+                            max: 3000,
+                            min: 1024
+                        },
+                        items: 1
+                        },
+                        mobile: {
+                        breakpoint: {
+                            max: 464,
+                            min: 0
+                        },
+                        items: 1
+                        },
+                        tablet: {
+                        breakpoint: {
+                            max: 1024,
+                            min: 464
+                        },
+                        items: 1
+                        }
+                    }}
+                    rewind={false}
+                    rewindWithAnimation={false}
+                    rtl={false}
+                    shouldResetAutoplay
+                    showDots
+                    sliderClass=""
+                    slidesToSlide={1}
+                    swipeable
+                >
+                    <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-yellow-100 h-full">
+                        <CustomVideoPlayer />
+                        {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
+                        <div className="bg-yellow-100 text-yellow-500 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
+                            <Separator className="my-4 w-[100%] mx-auto"/>
+                            <p>Lorem ipsum</p>
+                            <p className="font-normal text-sm">Lorem ipsum</p>
+                        </div>
+                    </div>
+                    <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
+                        <CustomVideoPlayer />
+                        {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
+                        <div className="bg-yellow-300 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
+                            <Separator className="my-4 w-[100%] mx-auto"/>
+                            <p>Lorem ipsum</p>
+                            <p className="font-normal text-sm">Lorem ipsum</p>
+                        </div>
+                    </div>
+                    <div className="w-full aspect-video flex gap-2 p-2 justify-center items-center my-auto relative m-auto rounded-md bg-white border border-gray-600/50 h-full">
+                        <CustomVideoPlayer />
+                        {/* <video src="/assets/testimonials-1.mkv" autoPlay controls></video> */}
+                        <div className="bg-yellow-300 p-[5%] font-[quicksand] font-semibold rounded-[inherit] flex-1 w-full h-full">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non dignissim odio, id faucibus nisl. Ut porttitor velit sed sem auctor efficitur. Ut quis ipsum et leo consectetur consequat a ut nibh. Etiam sagittis faucibus luctus. Curabitur vehicula, sapien sed sollicitudin iaculis, justo tellus efficitur mauris, nec consectetur augue metus eleifend nisl. Morbi dignissim et arcu et finibus. Morbi vel metus enim. Proin facilisis velit ac urna efficitur facilisis. Donec id vestibulum nulla. Aliquam faucibus diam vel tincidunt euismod. In at est urna. Nunc ultrices lobortis consectetur. Proin vel auctor mi, quis ultrices sem.</p>
+                            <Separator className="my-4 w-[100%] mx-auto"/>
+                            <p>Lorem ipsum</p>
+                            <p className="font-normal text-sm">Lorem ipsum</p>
+                        </div>
+                    </div>
+                </Carousel>
             </section>
         </div>
     );
 };
 
-
+// Custom Video Player for Testimonials
 const CustomVideoPlayer = () => {
-    return (
-        <ReactPlayer height={"100%"} width={"33%"} style={{
-            // height: "100%",
-            // width: "50px !important",
-            backgroundColor: "#fef9c3",
-            // flex: "0 1 auto",
-            aspectRatio: "1 / 2",
-            borderRadius: "inherit",
-            position: "relative"
-        }} playing url={"/assets/testimonials-1.mkv"} light playIcon={<Button className="absolute bottom-5 w-[80%] backdrop-blur-md rounded-full bg-transparent border border-yellow-500 text-yellow-500">
-            <span className="w-full flex items-center justify-between">Watch testimonial <Triangle className="rotate-90 w-4 aspect-square"/></span>
-            {/* <div className="absolute w-full h-full rounded-[inherit] top-0 bottom-0 left-0 right-0 blur-sm bg-white/50" /> */}
-        </Button>}></ReactPlayer>
-    );
-}
+  return (
+    <ReactPlayer
+      height="100%"
+      width="33%"
+      style={{
+        backgroundColor: "#fef9c3",
+        aspectRatio: "1 / 2",
+        borderRadius: "inherit",
+        position: "relative",
+      }}
+      playing
+      url="/assets/testimonials-1.mkv"
+      light
+      playIcon={
+        <Button className="absolute bottom-5 w-[80%] backdrop-blur-md rounded-full bg-transparent border border-yellow-500 text-yellow-500">
+          <span className="w-full flex items-center justify-between">
+            Watch testimonial <Triangle className="rotate-90 w-4 aspect-square" />
+          </span>
+        </Button>
+      }
+    />
+  );
+};
