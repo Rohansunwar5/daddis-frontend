@@ -15,39 +15,28 @@ export const ContainerScroll = ({
     target: containerRef,
   })
 
-  const topTextOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0, 1])
-  const topTextScale = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [2, 1.5, 1])
-  const topTextRotateX = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [180, 90, 0])
+  // PRODUCTS text - starts zoomed in with low opacity, longer animation
+  const centerTextScale = useTransform(scrollYProgress, [0, 0.4, 0.7], [4, 1.2, 1])
+  const centerTextOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7], [0.3, 0.8, 1])
 
-  const centerTextOpacity = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [0.3, 1, 1, 1])
-  const centerTextScale = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [3, 2, 1.5, 1])
-  const centerTextRotateX = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [0, 0, 0, 0])
+  // OUR text - appears after PRODUCTS is visible, slower reveal
+  const topTextOpacity = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0, 0.8, 1])
+  const topTextScale = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0.8, 0.95, 1])
 
-  const bottomTextOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0, 1])
-  const bottomTextScale = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [2, 1.5, 1])
-  const bottomTextRotateX = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [-180, -90, 0])
+  // ARE LOVED BY text - appears after PRODUCTS is visible, slower reveal
+  const bottomTextOpacity = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0, 0.8, 1])
+  const bottomTextScale = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0.8, 0.95, 1])
 
   return (
-    <div
-      className="h-[50rem] md:h-[50rem] flex items-center justify-center relative -z-10"
-      ref={containerRef}
-    >
-      <div
-        className="py-10 md:py-40 w-full relative"
-        style={{
-          perspective: "2000px",
-        }}
-      >
+    <div className="h-[80rem] relative" ref={containerRef}>
+      <div className="sticky top-0 h-screen flex items-center justify-center">
         <TextReveal
           topTextOpacity={topTextOpacity}
           topTextScale={topTextScale}
-          topTextRotateX={topTextRotateX}
           centerTextOpacity={centerTextOpacity}
           centerTextScale={centerTextScale}
-          centerTextRotateX={centerTextRotateX}
           bottomTextOpacity={bottomTextOpacity}
           bottomTextScale={bottomTextScale}
-          bottomTextRotateX={bottomTextRotateX}
         />
       </div>
     </div>
@@ -57,65 +46,78 @@ export const ContainerScroll = ({
 export const TextReveal = ({
   topTextOpacity,
   topTextScale,
-  topTextRotateX,
   centerTextOpacity,
   centerTextScale,
-  centerTextRotateX,
   bottomTextOpacity,
   bottomTextScale,
-  bottomTextRotateX,
 }: {
   topTextOpacity: MotionValue<number>
   topTextScale: MotionValue<number>
-  topTextRotateX: MotionValue<number>
   centerTextOpacity: MotionValue<number>
   centerTextScale: MotionValue<number>
-  centerTextRotateX: MotionValue<number>
   bottomTextOpacity: MotionValue<number>
   bottomTextScale: MotionValue<number>
-  bottomTextRotateX: MotionValue<number>
 }) => {
   return (
-    <div className="max-w-5xl mx-auto text-center relative h-[600px] flex flex-col items-center justify-center">
-      <div className="relative flex flex-col items-center justify-center space-y-4">
-        {/* Top text: "Our" - zooms out with flip animation */}
-        <motion.div
-          style={{
-            opacity: topTextOpacity,
-            scale: topTextScale,
-            rotateX: topTextRotateX,
-            transformOrigin: "center bottom",
-          }}
-          className="text-7xl md:text-9xl lg:text-[10rem] font-bold tracking-tight text-gray-900 dark:text-white uppercase whitespace-nowrap"
-        >
-          OUR
-        </motion.div>
+    <div className="flex flex-col items-center justify-center space-y-8">
+      {/* Top text: "OUR" - positioned above PRODUCTS, no movement */}
+      <motion.div
+        style={{
+          opacity: topTextOpacity,
+          scale: topTextScale,
+          transformOrigin: "center",
+        }}
+        className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight text-gray-900 dark:text-white uppercase whitespace-nowrap"
+      >
+        OUR
+      </motion.div>
 
-        {/* Center text: "products" - zooms out effect */}
-        <motion.div
-          style={{
-            opacity: centerTextOpacity,
-            scale: centerTextScale,
-            rotateX: centerTextRotateX,
-            textShadow: "0 4px 8px rgba(0,0,0,0.1)",
-          }}
-          className="text-7xl md:text-9xl lg:text-[10rem] font-bold text-gray-900 dark:text-white uppercase tracking-tight whitespace-nowrap"
-        >
-          PRODUCTS
-        </motion.div>
+      {/* Center text: "PRODUCTS" - always in the exact center */}
+      <motion.div
+        style={{
+          opacity: centerTextOpacity,
+          scale: centerTextScale,
+          transformOrigin: "center",
+          textShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        }}
+        className="text-6xl md:text-8xl lg:text-9xl font-bold text-gray-900 dark:text-white uppercase tracking-tight whitespace-nowrap"
+      >
+        PRODUCTS
+      </motion.div>
 
-        {/* Bottom text: "are loved by" - zooms out with flip animation */}
-        <motion.div
-          style={{
-            opacity: bottomTextOpacity,
-            scale: bottomTextScale,
-            rotateX: bottomTextRotateX,
-            transformOrigin: "center top",
-          }}
-          className="text-7xl md:text-9xl lg:text-[10rem] font-bold tracking-tight text-gray-900 dark:text-white uppercase whitespace-nowrap"
-        >
-          ARE LOVED BY
-        </motion.div>
+      {/* Bottom text: "ARE LOVED BY" - positioned below PRODUCTS, no movement */}
+      <motion.div
+        style={{
+          opacity: bottomTextOpacity,
+          scale: bottomTextScale,
+          transformOrigin: "center",
+        }}
+        className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight text-gray-900 dark:text-white uppercase whitespace-nowrap"
+      >
+        ARE LOVED BY
+      </motion.div>
+    </div>
+  )
+}
+
+// Demo component to show the animation
+export default function Demo() {
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900">
+      <div className="h-screen flex items-center justify-center">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          Scroll down to see the animation
+        </h1>
+      </div>
+      
+      <ContainerScroll titleComponent="">
+        <div></div>
+      </ContainerScroll>
+      
+      <div className="h-screen flex items-center justify-center">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          Animation complete - continue scrolling
+        </h1>
       </div>
     </div>
   )
