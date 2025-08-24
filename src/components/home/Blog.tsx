@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Plus, X } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { Plus, X, Calendar, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { ToastFaliure } from "../dashboard/productMain/AllProductsTable";
 import { ISampleBlogs } from "../../utils/constants";
@@ -33,32 +32,56 @@ const getBlogs = async () => {
 }
 
 const Blog = ({ blog } : { blog : ISampleBlogs }) => {
-
     const navigate = useNavigate();
 
     return (
-        <div className="w-[300px] bg-black/5 flex flex-col h-[450px] rounded-lg">
-            <p className="px-[2%] py-[5%] text-center m-auto flex items-center">{blog.title}</p>
-            <span id="blog-content" className="bg-black/30 relative flex-1 rounded-[inherit] rounded-t-none">
-                <img src={optimizeCloudinaryUrl(blog?.blogImgUrl?.url)} className="h-full object-cover rounded-[inherit] w-full" />
-                <span className="absolute px-2 bg-black/60 text-white py-2 w-full bottom-0 rounded-b-[inherit] ">
-                    {/* <p className="font-thin text-white/50">
-                        {parse(blog?.blogContent?.markup)}
-                    </p> */}
-                    <Button variant={"ghost"} onClick={() => {
-                        navigate(`/blog/${blog._id}`);
-                    }} className="text-xs p-0 my-0 hover:bg-transparent h-0">VIEW BLOG</Button>
-                </span>
-            </span>
-        </div>
+        <article className="group bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-yellow-200 hover:border-[#fef9c3]">
+            {/* Image Container */}
+            <div className="relative overflow-hidden h-56">
+                <img 
+                    src={optimizeCloudinaryUrl(blog?.blogImgUrl?.url)} 
+                    alt={blog.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+            
+            {/* Content Container */}
+            <div className="p-6">
+                {/* Date */}
+                <div className="flex items-center text-sm text-gray-500 mb-3">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    <time dateTime="2024-01-01">January 1, 2024</time>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-yellow-600 transition-colors">
+                    {blog.title}
+                </h3>
+                
+                {/* Excerpt */}
+                <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                    Discover the latest insights and stories from our blog. Learn about new trends, tips, and industry knowledge.
+                </p>
+                
+                {/* Read More Button */}
+                <Button 
+                    variant="ghost" 
+                    onClick={() => navigate(`/blog/${blog._id}`)}
+                    className="group/button p-0 h-auto text-yellow-600 hover:text-yellow-700 font-medium text-sm transition-colors"
+                >
+                    Read More
+                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover/button:translate-x-1" />
+                </Button>
+            </div>
+        </article>
     );
 }
 
 export const BlogPage = () => {
-
     const [ blogs, setBlogs ] = useState<Array<ISampleBlogs>>([]);
     const [ isLoadmoreButtonDisabled, setIsLoadmoreButtonDisabled ] = useState(false);
-    const [visibleItemCount, setVisibleItemCount] = useState(5);
+    const [visibleItemCount, setVisibleItemCount] = useState(6);
     const [displayedData, setDisplayedData] = useState(blogs?.slice(0, visibleItemCount));
 
     useEffect(() => {
@@ -76,25 +99,90 @@ export const BlogPage = () => {
     }, []);
 
     return (
-        <div className="px-[10%] mt-14">
-            <div className="relative rounded-md">
-                <img src="https://images8.alphacoders.com/132/1329177.png" className="w-full bg-black/30 rounded-[inherit] object-cover object-top h-[200px]" />
-                <span className="font-[] bottom-10 left-[50%] text-white -translate-x-[50%] absolute text-4xl font-semibold"><i>Daadis's</i></span>
-            </div>
-            <p id="blog-page-desc" className="text-justify mt-14 px-[10%]">
-                On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains
-            </p>
-            <div className="justify-between flex-grow flex-wrap gap-x-4 gap-y-4 flex w-full min-h-[calc(100vh-50px)] my-14">
-                {blogs?.map((blog: ISampleBlogs) => (
-                    <Blog blog={blog} />
-                ))}
-                <div className="flex-col flex gap-4 mt-14 justify-center items-center w-full">
-                    {(displayedData?.length === blogs?.length) && <p className="font-[quicksand]"><i>Thats all...</i></p>}
-                    <Button disabled={isLoadmoreButtonDisabled} onClick={() => {
-                            setVisibleItemCount(prevCount => prevCount + 5);
-                            setDisplayedData(blogs?.slice(0, visibleItemCount + 5));
-                    }} className={cn("flex justify-center items-center gap-2", (displayedData.length === blogs.length) && "")}>Load more {(displayedData.length === blogs.length) ? <X /> : <Plus />}</Button>
+        <div className="min-h-screen" style={{backgroundColor: '#ffff'}}>
+            {/* Hero Section */}
+            <div className="relative">
+                <div className="relative h-80 overflow-hidden">
+                    <img 
+                        src="https://images8.alphacoders.com/132/1329177.png" 
+                        className="w-full h-full object-cover opacity-50" 
+                        alt="Blog header"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center text-white">
+                            <h1 className="text-5xl font-bold mb-4 font-serif italic text-gray-800">
+                                Daadi's Blog
+                            </h1>
+                            <p className="text-xl opacity-90 max-w-2xl mx-auto text-gray-700">
+                                Stories, insights, and inspiration from our journey
+                            </p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                {/* Description */}
+                <div className="max-w-4xl mx-auto mb-16">
+                    <p className="text-gray-600 text-lg leading-relaxed text-center">
+                        Welcome to our blog where we share insights, stories, and knowledge. 
+                        We believe in the power of sharing experiences and learning from one another. 
+                        Join us on this journey as we explore topics that matter to our community.
+                    </p>
+                </div>
+
+                {/* Blog Grid */}
+                {blogs.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+                        {blogs.map((blog: ISampleBlogs, index: number) => (
+                            <Blog key={blog._id || index} blog={blog} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-16">
+                        <div className="text-gray-600 mb-4">
+                            <div className="w-24 h-24 mx-auto mb-6 bg-white rounded-full flex items-center justify-center border border-yellow-200">
+                                <Calendar className="w-12 h-12 text-yellow-600" />
+                            </div>
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2">No blogs yet</h3>
+                        <p className="text-gray-600">Check back soon for new content!</p>
+                    </div>
+                )}
+
+                {/* Load More Section */}
+                {blogs.length > 0 && (
+                    <div className="text-center">
+                        {displayedData?.length === blogs?.length ? (
+                            <div className="inline-flex flex-col items-center gap-4">
+                                <p className="text-gray-500 italic">That's all for now!</p>
+                                <div className="w-16 h-px bg-gray-300"></div>
+                            </div>
+                        ) : (
+                            <Button 
+                                disabled={isLoadmoreButtonDisabled} 
+                                onClick={() => {
+                                    setVisibleItemCount(prevCount => prevCount + 6);
+                                    setDisplayedData(blogs?.slice(0, visibleItemCount + 6));
+                                }}
+                                className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 px-8 py-3 text-base font-medium transition-colors border border-yellow-400"
+                            >
+                                {displayedData.length === blogs.length ? (
+                                    <>
+                                        All loaded 
+                                        <X className="w-5 h-5 ml-2" />
+                                    </>
+                                ) : (
+                                    <>
+                                        Load More Posts 
+                                        <Plus className="w-5 h-5 ml-2" />
+                                    </>
+                                )}
+                            </Button>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

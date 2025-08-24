@@ -15,35 +15,38 @@ export const ContainerScroll = ({
     target: containerRef,
   })
 
-  const topTextOpacity = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0, 0, 1])
-  const topTextY = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [100, 50, 0])
-  const topTextRotateX = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [180, 90, 0])
+  const topTextOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0, 1])
+  const topTextScale = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [2, 1.5, 1])
+  const topTextRotateX = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [180, 90, 0])
 
   const centerTextOpacity = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [0.3, 1, 1, 1])
-  const centerTextScale = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [1.8, 1, 1, 1])
+  const centerTextScale = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [3, 2, 1.5, 1])
   const centerTextRotateX = useTransform(scrollYProgress, [0.2, 0.4, 0.8, 1], [0, 0, 0, 0])
 
-  const bottomTextOpacity = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0, 0, 1])
-  const bottomTextY = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [-100, -50, 0])
-  const bottomTextRotateX = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [-180, -90, 0])
+  const bottomTextOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0, 1])
+  const bottomTextScale = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [2, 1.5, 1])
+  const bottomTextRotateX = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [-180, -90, 0])
 
   return (
-    <div className="h-[60rem] md:h-[60rem] flex items-center justify-center relative p-2 pb-0" ref={containerRef}>
+    <div
+      className="h-[50rem] md:h-[50rem] flex items-center justify-center relative -z-10"
+      ref={containerRef}
+    >
       <div
-        className="py-10 pb-0 w-full relative"
+        className="py-10 md:py-40 w-full relative"
         style={{
-          perspective: "1000px",
+          perspective: "2000px",
         }}
       >
         <TextReveal
           topTextOpacity={topTextOpacity}
-          topTextY={topTextY}
+          topTextScale={topTextScale}
           topTextRotateX={topTextRotateX}
           centerTextOpacity={centerTextOpacity}
           centerTextScale={centerTextScale}
           centerTextRotateX={centerTextRotateX}
           bottomTextOpacity={bottomTextOpacity}
-          bottomTextY={bottomTextY}
+          bottomTextScale={bottomTextScale}
           bottomTextRotateX={bottomTextRotateX}
         />
       </div>
@@ -53,33 +56,33 @@ export const ContainerScroll = ({
 
 export const TextReveal = ({
   topTextOpacity,
-  topTextY,
+  topTextScale,
   topTextRotateX,
   centerTextOpacity,
   centerTextScale,
   centerTextRotateX,
   bottomTextOpacity,
-  bottomTextY,
+  bottomTextScale,
   bottomTextRotateX,
 }: {
   topTextOpacity: MotionValue<number>
-  topTextY: MotionValue<number>
+  topTextScale: MotionValue<number>
   topTextRotateX: MotionValue<number>
   centerTextOpacity: MotionValue<number>
   centerTextScale: MotionValue<number>
   centerTextRotateX: MotionValue<number>
   bottomTextOpacity: MotionValue<number>
-  bottomTextY: MotionValue<number>
+  bottomTextScale: MotionValue<number>
   bottomTextRotateX: MotionValue<number>
 }) => {
   return (
     <div className="max-w-5xl mx-auto text-center relative h-[600px] flex flex-col items-center justify-center">
       <div className="relative flex flex-col items-center justify-center space-y-4">
-        {/* Top text: "Our" - positioned above products */}
+        {/* Top text: "Our" - zooms out with flip animation */}
         <motion.div
           style={{
             opacity: topTextOpacity,
-            translateY: topTextY,
+            scale: topTextScale,
             rotateX: topTextRotateX,
             transformOrigin: "center bottom",
           }}
@@ -88,7 +91,7 @@ export const TextReveal = ({
           OUR
         </motion.div>
 
-        {/* Center text: "products" - stays in center, only scales and fades */}
+        {/* Center text: "products" - zooms out effect */}
         <motion.div
           style={{
             opacity: centerTextOpacity,
@@ -101,11 +104,11 @@ export const TextReveal = ({
           PRODUCTS
         </motion.div>
 
-        {/* Bottom text: "are loved by" - positioned below products */}
+        {/* Bottom text: "are loved by" - zooms out with flip animation */}
         <motion.div
           style={{
             opacity: bottomTextOpacity,
-            translateY: bottomTextY,
+            scale: bottomTextScale,
             rotateX: bottomTextRotateX,
             transformOrigin: "center top",
           }}
